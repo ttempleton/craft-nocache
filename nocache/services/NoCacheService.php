@@ -51,7 +51,7 @@ class NoCacheService extends BaseApplicationComponent
 		return $template->render($context);
 	}
 
-	public function compile($id, $compiler, $node)
+	public function compile($id, \Twig_Compiler $compiler, \Twig_Node $node)
 	{
 		$className = $this->getClassName($id);
 		$module = new \Twig_Node_Module(

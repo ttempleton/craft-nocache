@@ -15,6 +15,8 @@ class NoCache_TokenParser extends \Twig_TokenParser
 		$parser = $this->parser;
 		$stream = $parser->getStream();
 
+		$context = $parser->getExpressionParser()->parseExpression();
+
 		$stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
 		$body = $parser->subparse([$this, 'decideEnd']);
@@ -24,6 +26,7 @@ class NoCache_TokenParser extends \Twig_TokenParser
 
 		return new NoCache_Node(
 			$body,
+			$context,
 			$token->getLine(),
 			$this->getTag()
 		);
