@@ -108,7 +108,7 @@ This causes an issue in situations like the following:
 
 You would expect that if you were to change the title of the article, it will update inside the `{% nocache %}` block. This is not the case, as the article itself would be cached due to the cache block.
 
-There's a few ways around this. You could move the `{% set articles %}` statement _within_ the cache block, so updating the article would cause the cache to bust.
+There's a few ways around this. You could move the `{% set articles %}` statement _within_ the cache block, so updating the article would cause the cache to bust. In situations where you are not using the article inside the cache (but outside the `nocache` block) this is the preferred method, as you won't spend any database calls grabbing the article inside the `nocache` block.
 
 ```twig
 {% cache %}
@@ -120,14 +120,16 @@ There's a few ways around this. You could move the `{% set articles %}` statemen
 {% endcache %}
 ```
 
-The other option is to only complete the query for the article inside the `{% nocache %}` block (or even the cache block).
+The other option is to query for the article inside the `nocache` block. This can be better than the above solution as updating the article title will not bust the cache. The difference in this situation is now the contents of the `nocache` block will cause a database call.
 
 ```twig
-{% set articles = craft.entries.section('news') %}
 {% cache %}
 	...
 	{% nocache %}
-		{{ articles.first.title }}
+		{% set article = craft.entries.section('news').first %}
+		{{ article.title }}
 	{% endnocache %}
 {% endcache %}
 ```
+
+Use your best judgement.
