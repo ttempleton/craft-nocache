@@ -17,12 +17,12 @@ class NoCachePlugin extends BasePlugin
 
 	public function getDescription()
 	{
-		return Craft::t("A Twig extension for disabling caching inside cache blocks");
+		return Craft::t("A Twig extension to escape caching inside cache blocks");
 	}
 
 	public function getVersion()
 	{
-		return '0.1.0';
+		return '0.1.1';
 	}
 
 	public function getCraftMinimumVersion()
