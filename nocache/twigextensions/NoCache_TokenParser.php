@@ -23,7 +23,7 @@ class NoCache_TokenParser extends \Twig_TokenParser
 		$stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
 		return new NoCache_Node(
-			['body' => $body],
+			$body,
 			$token->getLine(),
 			$this->getTag()
 		);
