@@ -92,7 +92,7 @@ Now you can include this form anywhere in your templates and not have to worry a
 
 ## Caveat
 
-Content inside `{% nocache %}` blocks will render slightly different than normal. Variables declared outside of the `{% nocache %}` block will actually have their values cached for the duration of the cache block.
+Content inside `{% nocache %}` blocks will render slightly different than normal. Variables declared outside of the `{% nocache %}` block will actually have their values cached for the duration of the cache block (though try and avoid doing this as `{% nocache %}` tags _do_ add some overhead).
 
 This causes an issue in situations like the following:
 
