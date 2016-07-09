@@ -76,29 +76,17 @@ class NoCachePlugin extends BasePlugin
 	{
 		parent::init();
 
-		$request = craft()->request;
-		$cacheEnabled = !$request->isLivePreview() && !$request->getToken() && $request->isSiteRequest();
-
-		if($cacheEnabled)
+		if(craft()->noCache->isCacheEnabled())
 		{
 			register_shutdown_function(function()
 			{
 				$output = ob_get_clean();
 
-				$environment = craft()->templates->getTwig();
-
-				$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-->/i', function($matches) use($environment)
+				$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-->/i', function($matches)
 				{
 					$id = $matches[1];
-					$className = '__NoCacheTemplate_' . $id;
-					$fileName = 'nocache_' . $id . '.php';
 
-					require_once __DIR__ . '/../../storage/runtime/compiled_templates/' . $fileName;
-
-					$template = new $className($environment);
-					$context = $environment->getGlobals();
-
-					return $template->render($context);
+					return craft()->noCache->render($id);
 
 				}, $output);
 

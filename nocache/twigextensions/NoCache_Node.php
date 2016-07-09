@@ -10,34 +10,21 @@ class NoCache_Node extends \Twig_Node
 
 	public function compile(\Twig_Compiler $compiler)
 	{
-		$id = StringHelper::randomString();
 		$body = $this->getNode('body');
-		$className = '__NoCacheTemplate_' . $id;
-		$fileName = 'nocache_' . $id . '.php';
 
-		$module = new \Twig_Node_Module(
-			new \Twig_Node_Body([$body]),
-			null,
-			new \Twig_Node(),
-			new \Twig_Node(),
-			new \Twig_Node(),
-			[],
-			$compiler->getFilename()
-		);
+		$compiler->addDebugInfo($this);
 
-		$environment = craft()->templates->getTwig();
-		$bodyCompiler = new \Twig_Compiler($environment);
-		$bodyCompiler->compile($module);
-		$source = $bodyCompiler->getSource();
+		if(craft()->noCache->isCacheEnabled())
+		{
+			$id = StringHelper::randomString();
 
-		$source = preg_replace('/class __TwigTemplate_[a-zA-Z0-9]+/', "class {$className}", $source);
+			craft()->noCache->compile($id, $compiler, $body);
 
-		IOHelper::createFile(craft()->path->getCompiledTemplatesPath() . $fileName)
-			->write($source, false);
-
-		$compiler
-			->addDebugInfo($this)
-			->write("echo '<!--nocache-{$id}-->';")
-		;
+			$compiler->write("echo '<!--nocache-{$id}-->';");
+		}
+		else
+		{
+			$compiler->subcompile($body);
+		}
 	}
 }
