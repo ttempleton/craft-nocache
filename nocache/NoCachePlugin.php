@@ -78,20 +78,23 @@ class NoCachePlugin extends BasePlugin
 
 		if(craft()->noCache->isCacheEnabled())
 		{
-			register_shutdown_function(function()
+			if(craft()->request->isSiteRequest())
 			{
-				$output = ob_get_clean();
-
-				$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-->/i', function($matches)
+				register_shutdown_function(function ()
 				{
-					$id = $matches[1];
+					$output = ob_get_clean();
 
-					return craft()->noCache->render($id);
+					$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-->/i', function ($matches)
+					{
+						$id = $matches[1];
 
-				}, $output);
+						return craft()->noCache->render($id);
 
-				echo $newOutput;
-			});
+					}, $output);
+
+					echo $newOutput;
+				});
+			}
 		}
 	}
 }

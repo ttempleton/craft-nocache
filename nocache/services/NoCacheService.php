@@ -26,11 +26,16 @@ class NoCacheService extends BaseApplicationComponent
 		return 'nocache_' . $id . '.php';
 	}
 
+	public function getIdFromFileName($fileName)
+	{
+		return substr($fileName, strlen('nocache_'), -strlen('.php'));
+	}
+
 	public function isCacheEnabled()
 	{
 		$request = craft()->request;
 
-		return !$request->isLivePreview() && !$request->getToken() && $request->isSiteRequest();
+		return !$request->isLivePreview() && !$request->getToken();
 	}
 
 	public function render($id)
@@ -70,8 +75,54 @@ class NoCacheService extends BaseApplicationComponent
 		$file->write($source, false);
 	}
 
-	public function clearCompiled($excludeIds = [])
+	public function clearCompiled($onlyUnused = true)
 	{
+		$compilePath = $this->getCompilePath();
 
+		if($onlyUnused)
+		{
+			$usedIds = $this->_getUsedCompileIds();
+			$files = IOHelper::getFolderContents($compilePath, false);
+
+			foreach($files as $filePath)
+			{
+				$fileName = IOHelper::getFileName($filePath);
+				$fileId = $this->getIdFromFileName($fileName);
+
+				if(!in_array($fileId, $usedIds))
+				{
+					IOHelper::deleteFile($filePath);
+				}
+			}
+		}
+		else
+		{
+			IOHelper::clearFolder($compilePath);
+		}
+	}
+
+	private function _getUsedCompileIds()
+	{
+		$ids = [];
+		$caches = craft()->db->createCommand()
+			->select('body')
+			->from('templatecaches')
+			->queryAll();
+
+		foreach($caches as $cache)
+		{
+			$body = $cache['body'];
+			preg_match_all('/<!--nocache-([a-z0-9]+)-->/i', $body, $matches);
+
+			if(isset($matches[1]))
+			{
+				foreach($matches[1] as $id)
+				{
+					$ids[] = $id;
+				}
+			}
+		}
+
+		return $ids;
 	}
 }
