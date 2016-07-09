@@ -88,11 +88,11 @@ Well, now your CSRF tokens are going to be cached and there's basically nothing 
 </form>
 ```
 
-Now you can include this form anywhere in your templates and not have to worry about your CSRF tokens being cached. As a side note, yes `{% nocache %}` tags _will_ work even when they are not inside a cache block.
+Now you can include this form anywhere in your templates and not have to worry about your CSRF tokens being cached. As a side note, yes `{% nocache %}` tags _will_ work even when they are not inside a cache block (though try and avoid doing this as `{% nocache %}` tags _do_ add some overhead).
 
 ## Caveat
 
-Content inside `{% nocache %}` blocks will render slightly different than normal. Variables declared outside of the `{% nocache %}` block will actually have their values cached for the duration of the cache block (though try and avoid doing this as `{% nocache %}` tags _do_ add some overhead).
+Content inside `{% nocache %}` blocks will render slightly different than normal. Variables declared outside of the `{% nocache %}` block will actually have their values cached for the duration of the cache block.
 
 This causes an issue in situations like the following:
 
