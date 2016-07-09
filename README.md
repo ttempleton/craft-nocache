@@ -37,16 +37,16 @@ You have two options. One is to segment your cache blocks up, like so:
 {% cache %}
 <header>
 	<nav>
-    	<ul>
-        	{% nav link in craft.entries.section('menu') %}
-            	<li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {% endnav %}
-        </ul>
-    </nav>
+		<ul>
+			{% nav link in craft.entries.section('menu') %}
+				<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+			{% endnav %}
+		</ul>
+	</nav>
 {% endcache %}
-    {% if currentUser %}
+	{% if currentUser %}
 		<div>Welcome, {{ currentUser.name }}</div>
-    {% endif %}
+	{% endif %}
 </header>
 ```
 
@@ -58,17 +58,17 @@ Using `{% nocache %}`, we can clean this up quite nicely:
 {% cache %}
 <header>
 	<nav>
-    	<ul>
-        	{% nav link in craft.entries.section('menu') %}
-            	<li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {% endnav %}
-        </ul>
-    </nav>
-    {% nocache %}
-    {% if currentUser %}
+		<ul>
+			{% nav link in craft.entries.section('menu') %}
+				<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+			{% endnav %}
+		</ul>
+	</nav>
+	{% nocache %}
+	{% if currentUser %}
 		<div>Welcome, {{ currentUser.name }}</div>
-    {% endif %}
-    {% endnocache %}
+	{% endif %}
+	{% endnocache %}
 </header>
 {% endcache %}
 ```
@@ -84,7 +84,7 @@ Well, now your CSRF tokens are going to be cached and there's basically nothing 
 ```twig
 <form>
 	{% nocache %}{{ getCsrfInput() }}{% endnocache %}
-    ...
+	...
 </form>
 ```
 
@@ -101,8 +101,8 @@ This causes an issue in situations like the following:
 {% cache %}
 	...
 	{% nocache %}
-    	{{ article.title }}
-    {% endnocache %}
+		{{ article.title }}
+	{% endnocache %}
 {% endcache %}
 ```
 
@@ -112,11 +112,11 @@ There's a few ways around this. You could move the `{% set articles %}` statemen
 
 ```twig
 {% cache %}
-    {% set article = craft.entries.section('news').first %}
+	{% set article = craft.entries.section('news').first %}
 	...
-    {% nocache %}
-    	{{ article.title }}
-    {% endnocache %}
+	{% nocache %}
+		{{ article.title }}
+	{% endnocache %}
 {% endcache %}
 ```
 
@@ -126,8 +126,8 @@ The other option is to only complete the query for the article inside the `{% no
 {% set articles = craft.entries.section('news') %}
 {% cache %}
 	...
-    {% nocache %}
-    	{{ articles.first.title }}
-    {% endnocache %}
+	{% nocache %}
+		{{ articles.first.title }}
+	{% endnocache %}
 {% endcache %}
 ```
