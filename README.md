@@ -108,7 +108,7 @@ This causes an issue in situations like the following:
 
 You would expect that if you were to change the title of the article, it will update inside the `{% nocache %}` block. This is not the case, as the article itself would be cached due to the cache block.
 
-There's a few ways around this. You could move the `{% set articles %}` statement _within_ the cache block, so updating the article would cause the cache to bust. In situations where you are not using the article inside the cache (but outside the `nocache` block) this is the preferred method, as you won't spend any database calls grabbing the article inside the `nocache` block.
+There's a few ways around this. You could move the `{% set articles %}` statement _within_ the cache block, so updating the article would cause the cache to bust. In situations where you are using the article inside the cache (but outside the `nocache` block) this is the preferred method, as you won't spend any database calls grabbing the article inside the `nocache` block.
 
 ```twig
 {% cache %}
