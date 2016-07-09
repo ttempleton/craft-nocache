@@ -1,6 +1,6 @@
 # No-Cache
 
-#### A [Craft CMS](http://craftcms.com) Twig extension to escape caching inside cache blocks
+#### A [Craft CMS](http://craftcms.com) Twig extension for disabling caching inside cache blocks
 
 ```twig
 {% cache %}
@@ -27,43 +27,107 @@ _template.twig:_
 {% endnocache %}
 ```
 
-## Caveat
+## Example: User information
 
-Content inside `{% nocache %}` blocks will lose access to the current context. Variables, macros, and anything else declared outside the block will be invisible inside the block – except for anything in the global context.
+Here's a common situation. You have a header to your website, and in it you want to a menu of page links, as well as the current logged in user. Since your menu is being generated through database queries, you want to cache your entire header. But you need your user information section to not be cached.
+
+You have two options. One is to segment your cache blocks up, like so:
 
 ```twig
-{% set variable = 5 %}
+{% cache %}
+<header>
+	<nav>
+    	<ul>
+        	{% nav link in craft.entries.section('menu') %}
+            	<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endnav %}
+        </ul>
+    </nav>
+{% endcache %}
+    {% if currentUser %}
+		<div>Welcome, {{ currentUser.name }}</div>
+    {% endif %}
+</header>
+```
+
+The problem with this approach is, A) you can't do this if you're including templates with data you don't want to cache, and B) it looks god awful.
+
+Using `{% nocache %}`, we can clean this up quite nicely:
+
+```twig
+{% cache %}
+<header>
+	<nav>
+    	<ul>
+        	{% nav link in craft.entries.section('menu') %}
+            	<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endnav %}
+        </ul>
+    </nav>
+    {% nocache %}
+    {% if currentUser %}
+		<div>Welcome, {{ currentUser.name }}</div>
+    {% endif %}
+    {% endnocache %}
+</header>
+{% endcache %}
+```
+
+Ah, that's much better.
+
+## Example: CSRF tokens
+
+A fantastic security feature, but one that basically renders caching impossible to use. Often you might find yourself outputting a form to the frontend, but it's nested deep within a chain of template includes and macros. At the top of this chain you've conveniently wrapped a cache tag around it.
+
+Well, now your CSRF tokens are going to be cached and there's basically nothing you can do about it. Using `{% nocache %}` tags, this is no longer a problem:
+
+```twig
+<form>
+	{% nocache %}{{ getCsrfInput() }}{% endnocache %}
+    ...
+</form>
+```
+
+Now you can include this form anywhere in your templates and not have to worry about your CSRF tokens being cached. As a side note, yes `{% nocache %}` tags _will_ work even when they are not inside a cache block.
+
+## Caveat
+
+Content inside `{% nocache %}` blocks will render slightly different than normal. Variables declared outside of the `{% nocache %}` block will actually have their values cached for the duration of the cache block.
+
+This causes an issue in situations like the following:
+
+```twig
+{% set article = craft.entries.section('news').first %}
 {% cache %}
 	...
 	{% nocache %}
-		{{ variable }} {# Will throw an error #}
-		{{ now|datetime }} {# Will output fine as `now` is a global variable #}
-	{% endnocache %}
+    	{{ article.title }}
+    {% endnocache %}
 {% endcache %}
 ```
 
-Fear not, for you see, context _can_ be passed explicitly:
+You would expect that if you were to change the title of the article, it will update inside the `{% nocache %}` block. This is not the case, as the article itself would be cached due to the cache block.
+
+There's a few ways around this. You could move the `{% set articles %}` statement _within_ the cache block, so updating the article would cause the cache to bust.
 
 ```twig
-{% set variable = 5 %}
 {% cache %}
+    {% set article = craft.entries.section('news').first %}
 	...
-	{% nocache {variable: variable} %}
-		{{ variable }} {# Will output 5 #}
-	{% endnocache %}
+    {% nocache %}
+    	{{ article.title }}
+    {% endnocache %}
 {% endcache %}
 ```
 
-There is another caveat here though, and that is the passed context itself will be cached. So in the above example, if `variable` changes value, but the cache block hasn't been cleared, then the `nocache` block will still render with `variable` being `5`.
-
-Due to this, you should only use variables declared inside the cache block so it's clear that it's infact being cached.
+The other option is to only complete the query for the article inside the `{% nocache %}` block (or even the cache block).
 
 ```twig
+{% set articles = craft.entries.section('news') %}
 {% cache %}
-	{% set variable = 5 %}
 	...
-	{% nocache {variable: variable} %}
-		{{ variable }} {# Will output 5 #}
-	{% endnocache %}
+    {% nocache %}
+    	{{ articles.first.title }}
+    {% endnocache %}
 {% endcache %}
 ```
