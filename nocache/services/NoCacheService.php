@@ -92,6 +92,8 @@ class NoCacheService extends BaseApplicationComponent
 				if(!in_array($fileId, $usedIds))
 				{
 					IOHelper::deleteFile($filePath);
+
+					craft()->cache->delete('nocache_' . $fileId);
 				}
 			}
 		}
