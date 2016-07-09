@@ -4,7 +4,7 @@ namespace Craft;
 /**
  * Class NoCachePlugin
  *
- * Thank you for using Craft No-cache!
+ * Thank you for using Craft No-Cache!
  * @see https://github.com/benjamminf/craft-nocache
  * @package Craft
  */
@@ -12,12 +12,12 @@ class NoCachePlugin extends BasePlugin
 {
 	public function getName()
 	{
-		return Craft::t("No-cache");
+		return Craft::t("No-Cache");
 	}
 
 	public function getDescription()
 	{
-		return Craft::t("");
+		return Craft::t("A Twig extension for disabling caching inside cache blocks");
 	}
 
 	public function getVersion()
@@ -28,6 +28,11 @@ class NoCachePlugin extends BasePlugin
 	public function getCraftMinimumVersion()
 	{
 		return '2.6';
+	}
+
+	public function getPHPMinimumVersion()
+	{
+		return '5.4';
 	}
 
 	public function getSchemaVersion()
@@ -60,9 +65,14 @@ class NoCachePlugin extends BasePlugin
 		return version_compare(craft()->getVersion(), $this->getCraftMinimumVersion(), '>=');
 	}
 
+	public function isPHPRequiredVersion()
+	{
+		return version_compare(PHP_VERSION, $this->getPHPMinimumVersion(), '>=');
+	}
+
 	public function onBeforeInstall()
 	{
-		return $this->isCraftRequiredVersion();
+		return $this->isCraftRequiredVersion() && $this->isPHPRequiredVersion();
 	}
 
 	public function addTwigExtension()
