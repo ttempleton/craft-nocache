@@ -1,6 +1,6 @@
 # No-Cache
 
-#### A [Craft CMS](http://craftcms.com) Twig extension for disabling caching inside cache blocks
+#### A [Craft CMS](http://craftcms.com) Twig extension that escapes caching inside cache blocks
 
 ```twig
 {% cache %}
