@@ -1,5 +1,9 @@
 ## Changelog
 
+#### v0.1.4
+- `Improved` Improved compilation reliability
+- `Fixed` Global variables now stay uncached (fixes bug in last release)
+
 #### v0.1.3
 - `Fixed` Cached contexts for `nocache` blocks now take priority over the current context
 
