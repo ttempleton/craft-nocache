@@ -26,7 +26,7 @@ class NoCache_Node_Body extends \Twig_Node
 			// Merge the cached context (if it exists) onto the current context before rendering the body
 			->write('if($cachedContext)')
 			->write('{')
-				->write('$context += $cachedContext;')
+				->write('$context = $cachedContext + $context;')
 			->write('}')
 
 			->subcompile($this->getNode('body'));
