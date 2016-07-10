@@ -1,5 +1,13 @@
 [
 	{
+		"version": "0.1.2",
+		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/0.1.2.zip",
+		"date": "2016-07-10T11:24:00+10:00",
+		"notes": [
+			"[Improved] Slight stability improvements when requiring files and loading cached contexts"
+		]
+	},
+	{
 		"version": "0.1.1",
 		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/0.1.1.zip",
 		"date": "2016-07-09T21:09:00+10:00",
