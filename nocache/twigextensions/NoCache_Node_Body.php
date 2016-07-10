@@ -24,9 +24,13 @@ class NoCache_Node_Body extends \Twig_Node
 			->write("\$cachedContext = \\Craft\\craft()->cache->get('nocache_{$this->id}');")
 
 			// Merge the cached context (if it exists) onto the current context before rendering the body
+			// Make sure that the original context takes priority over the cached context, so variables that have been
+			// updated are used instead (such as the `now` global variable)
 			->write('if($cachedContext)')
 			->write('{')
-				->write('$context = $cachedContext + $context;')
+				->indent()
+				->write('$context += $cachedContext;')
+				->outdent()
 			->write('}')
 
 			->subcompile($this->getNode('body'));
