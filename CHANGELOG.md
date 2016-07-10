@@ -1,5 +1,8 @@
 ## Changelog
 
+#### v0.1.3
+- `Fixed` Cached contexts for `nocache` blocks now take priority over the current context
+
 #### v0.1.2
 - `Improved` Slight stability improvements when requiring files and loading cached contexts
 
