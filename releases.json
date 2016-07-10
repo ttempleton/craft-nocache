@@ -1,5 +1,13 @@
 [
 	{
+		"version": "0.1.3",
+		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/0.1.3.zip",
+		"date": "2016-07-10T19:42:00+10:00",
+		"notes": [
+			"[Fixed] Cached contexts for `nocache` blocks now take priority over the current context"
+		]
+	},
+	{
 		"version": "0.1.2",
 		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/0.1.2.zip",
 		"date": "2016-07-10T11:24:00+10:00",
