@@ -1,8 +1,13 @@
 <?php
 namespace Craft;
 
-require 'NoCache_TokenParser.php';
+require_once 'NoCache_TokenParser.php';
 
+/**
+ * Class NoCacheTwigExtension
+ *
+ * @package Craft
+ */
 class NoCacheTwigExtension extends \Twig_Extension
 {
 	public function getName()

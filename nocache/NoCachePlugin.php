@@ -86,18 +86,23 @@ class NoCachePlugin extends BasePlugin
 	{
 		parent::init();
 
+		// Only enable the plugin's functionality if template caching is enabled
 		if(craft()->noCache->isCacheEnabled())
 		{
+			// Watch for `nocache` blocks only if it's a site request
 			if(craft()->request->isSiteRequest())
 			{
-				register_shutdown_function(function ()
+				// Capture the raw request output right before it's sent to the requester
+				register_shutdown_function(function()
 				{
 					$output = ob_get_clean();
 
+					// Find any `nocache` placeholder tags in the output
 					$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-->/i', function ($matches)
 					{
 						$id = $matches[1];
 
+						// Force-render the internals of the `nocache` tag and put it in place of the placeholder
 						return craft()->noCache->render($id);
 
 					}, $output);

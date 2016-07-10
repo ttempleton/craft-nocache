@@ -3,6 +3,11 @@ namespace Craft;
 
 require_once 'NoCache_Node.php';
 
+/**
+ * Class NoCache_TokenParser
+ *
+ * @package Craft
+ */
 class NoCache_TokenParser extends \Twig_TokenParser
 {
 	public function getTag()
