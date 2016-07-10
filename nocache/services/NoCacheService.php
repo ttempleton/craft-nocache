@@ -104,25 +104,16 @@ class NoCacheService extends BaseApplicationComponent
 	 */
 	public function compile($id, \Twig_Compiler $compiler, \Twig_Node $node)
 	{
-		$className = $this->getClassName($id);
+		require_once __DIR__ . '/../twigextensions/NoCache_Node_Module.php';
 
 		// Create a module node as it'll compile to a complete compiled template class, as opposed to just compiling the
-		// node directly, which will only generate the internals of the render method for that class
-		// Also, pass a bunch of empty nodes and objects as they're required parameters, but of no use in this situation
-		$module = new \Twig_Node_Module(
-			new \Twig_Node_Body([$node]),
-			null,
-			new \Twig_Node(),
-			new \Twig_Node(),
-			new \Twig_Node(),
-			[],
-			// Modules expect a Twig template file to be the source of their compilation. Since this parameter is
-			// required to be a valid template file, just pass it the template that the `nocache` block is apart of.
-			// This is technically incorrect as the compiler uses this file as a way of mapping errors to line numbers,
-			// because the internals of the `nocache` block have been isolated from the template and are being treated
-			// as it's own separate template. This means the mapping of errors to line numbers will be off.
-			$compiler->getFilename()
-		);
+		// node directly, which will only generate the internals of the render method for that class.
+		// Modules expect a Twig template file to be the source of their compilation. Since this last parameter is
+		// required to be a valid template file, just pass it the template that the `nocache` block is apart of.
+		// This is technically incorrect as the compiler uses this file as a way of mapping errors to line numbers,
+		// because the internals of the `nocache` block have been isolated from the template and are being treated
+		// as it's own separate template. This means the mapping of errors to line numbers will be off.
+		$module = new NoCache_Node_Module(new \Twig_Node_Body([$node]), $id, $compiler->getFilename());
 
 		$environment = craft()->templates->getTwig();
 
@@ -130,11 +121,6 @@ class NoCacheService extends BaseApplicationComponent
 		$nodeCompiler = new \Twig_Compiler($environment);
 		$nodeCompiler->compile($module);
 		$source = $nodeCompiler->getSource();
-
-		// The compiled module node will use the ID of the passed template as it's class name, but it really needs to be
-		// marked with the ID of the `nocache` block. Yeah, pretty crude to perform a string replace on the compiled
-		// code but get over it already will you? Jeez...
-		$source = preg_replace('/class __TwigTemplate_[a-zA-Z0-9]+/', "class {$className}", $source);
 
 		// Finally create the compiled template file
 		$file = IOHelper::createFile($this->getCompilePath($id));
