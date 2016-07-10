@@ -77,7 +77,7 @@ Ah, that's much better.
 
 ## Example: CSRF tokens
 
-A fantastic security feature, but one that basically renders caching impossible to use. Often you might find yourself outputting a form to the frontend, but it's nested deep within a chain of template includes and macros. At the top of this chain you've conveniently wrapped a cache tag around it.
+A fantastic security feature, but one that basically renders caching impossible to use. Often you might find yourself outputting a form to the frontend, but it's nested deep within a stack of template includes and macros. At the top of this stack you've conveniently wrapped a cache tag around it.
 
 Well, now your CSRF tokens are going to be cached and there's basically nothing you can do about it. Using `{% nocache %}` tags, this is no longer a problem:
 
