@@ -98,12 +98,13 @@ class NoCachePlugin extends BasePlugin
 					$output = ob_get_clean();
 
 					// Find any `nocache` placeholder tags in the output
-					$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-->/i', function ($matches)
+					$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-([a-z0-9]+)-->/i', function($matches)
 					{
 						$id = $matches[1];
+						$type = $matches[2];
 
 						// Force-render the internals of the `nocache` tag and put it in place of the placeholder
-						return craft()->noCache->render($id);
+						return craft()->noCache->render($id, $type);
 
 					}, $output);
 

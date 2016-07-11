@@ -20,7 +20,7 @@ class NoCache_Node extends \Twig_Node
 		$compiler->addDebugInfo($this);
 
 		// Generate a random ID for the `nocache` block
-		$id = StringHelper::randomString();
+		$id = StringHelper::randomString(24);
 
 		// Create a wrapper node for the internals of the `nocache` block
 		// This will serve as the node that'll actually render the contents of that block, whereas this node's purpose
@@ -38,8 +38,9 @@ class NoCache_Node extends \Twig_Node
 			//    variables or macros will work as per usual.
 			// 2. Renders the placeholder tag which will later be replaced by the rendered body of the `nocache` tag.
 			$compiler
-				->write("\\Craft\\craft()->cache->set('nocache_{$id}', \$context);")
-				->write("echo '<!--nocache-{$id}-->';");
+				->write('$contextId = \\Craft\\StringHelper::randomString(8);')
+				->write("\\Craft\\craft()->cache->set('nocache_{$id}_' . \$contextId, \$context);")
+				->write("echo '<!--nocache-{$id}-' . \$contextId . '-->';");
 		}
 		else
 		{

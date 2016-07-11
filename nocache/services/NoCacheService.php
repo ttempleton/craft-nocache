@@ -78,18 +78,28 @@ class NoCacheService extends BaseApplicationComponent
 	/**
 	 * Renders a NoCache compiled template.
 	 *
-	 * @param $id - The template ID
+	 * @param $templateId
+	 * @param $contextId
 	 * @return string - The rendered output of the template
 	 */
-	public function render($id)
+	public function render($templateId, $contextId)
 	{
 		$environment = craft()->templates->getTwig();
-		$className = $this->getClassName($id);
+		$className = $this->getClassName($templateId);
 
-		require_once $this->getCompilePath($id);
+		require_once $this->getCompilePath($templateId);
 
 		$template = new $className($environment);
 		$context = $environment->getGlobals();
+		$cachedContext = craft()->cache->get("nocache_{$templateId}_{$contextId}");
+
+		// Merge the cached context (if it exists) onto the current context before rendering the body
+		// Make sure that the original context takes priority over the cached context, so variables that have been
+		// updated are used instead (such as the `now` global variable)
+		if($cachedContext)
+		{
+			$context += $cachedContext;
+		}
 
 		return $template->render($context);
 	}
