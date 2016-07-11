@@ -1,5 +1,8 @@
 ## Changelog
 
+#### v0.1.5
+- `Fixed` No-cache blocks now function correctly in loops
+
 #### v0.1.4
 - `Improved` Improved compilation reliability
 - `Fixed` Global variables now stay uncached (fixes bug in last release)
