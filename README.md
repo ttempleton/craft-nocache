@@ -45,7 +45,7 @@ Say you have a list of products you want to show on your page. Under each produc
 {% endcache %}
 ```
 
-Now we have a problem. The cache around the list of products will cause the `currentUser` logic to essentially not work, since they'll be cached along with the products. You can't isolate the user logic by separating things into multiple cache blocks, since you're in a loop, and the whole point was to cache the database call to grab the product entries. So you either have to apply your user checking in Javascript (far from ideal), or disregard caching altogether.
+Now we have a problem. The cache around the list of products will cause the `currentUser` logic to essentially not work, since they'll be cached along with the products. You can't isolate the user logic by separating things into multiple cache blocks, since you're in a loop, and the whole point was to cache the database call that grabs the product entries. So you either have to apply your user checking in Javascript (far from ideal), or disregard caching altogether.
 
 With `nocache` tags you can fix this very easily:
 
