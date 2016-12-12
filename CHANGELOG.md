@@ -1,5 +1,12 @@
 ## Changelog
 
+### v1.0.0
+- `Added` No-cache tags now require variables to be passed
+- `Fixed` Fixed issue with relative/storage filepaths on some hosts – cheers @mmikkel :)
+- `Fixed` Fixed conflicts with the [Minify plugin](https://github.com/nystudio107/minify)
+
+--
+
 #### v0.1.5
 - `Fixed` No-cache blocks now function correctly in loops
 
@@ -17,4 +24,4 @@
 - `Added` Added ability to pass context to `nocache` blocks
 
 #### v0.1.0
-Initial release
+- Initial release
