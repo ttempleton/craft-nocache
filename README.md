@@ -74,7 +74,7 @@ With `nocache` tags you can fix this very easily:
 {% endcache %}
 ```
 
-The `nocache` block will allow you to cache the entire product list, but still perform your user logic outside of the cache. It also retains context, so you can still refer to products and entries inside the `nocache` block and access their properties, _without_ any additional database calls. This is because the context itself (with all it's variables, macros, etc.) is itself cached. Pretty neat, huh?
+The `nocache` block will allow you to cache the entire product list, but still perform your user logic outside of the cache. It also allows passing of context, so you can still refer to products and entries inside the `nocache` block and access their properties, _without_ any additional database calls.
 
 ## Example: CSRF tokens
 
