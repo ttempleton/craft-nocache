@@ -1,5 +1,8 @@
 ## Changelog
 
+#### v0.1.6
+– `Fixed` Fixes issue with relative /storage filepaths on some hosts
+
 #### v0.1.5
 - `Fixed` No-cache blocks now function correctly in loops
 

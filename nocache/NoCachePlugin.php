@@ -22,7 +22,7 @@ class NoCachePlugin extends BasePlugin
 
 	public function getVersion()
 	{
-		return '0.1.5';
+		return '0.1.6';
 	}
 
 	public function getCraftMinimumVersion()
@@ -92,7 +92,9 @@ class NoCachePlugin extends BasePlugin
 			// Watch for `nocache` blocks only if it's a site request
 			if(craft()->request->isSiteRequest())
 			{
-				// Capture the raw request output right before it's sent to the requester
+				// Capture the raw request output right before it's sent to the requester.
+				// Note: working directory may change during `register_shutdown_function`, so let's deal with that by caching our current working directory to a constant
+				define('NOCACHEPLUGIN_CWD', getcwd());
 				register_shutdown_function(function()
 				{
 					$output = ob_get_clean();
@@ -102,7 +104,10 @@ class NoCachePlugin extends BasePlugin
 					{
 						$id = $matches[1];
 						$type = $matches[2];
-
+						// Change working directory if need be
+						if (getcwd() !== NOCACHEPLUGIN_CWD) {
+							chdir(NOCACHEPLUGIN_CWD);
+						}
 						// Force-render the internals of the `nocache` tag and put it in place of the placeholder
 						return craft()->noCache->render($id, $type);
 
