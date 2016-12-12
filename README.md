@@ -27,6 +27,15 @@ _template.twig:_
 {% endnocache %}
 ```
 
+If you need to reference variables outside of the `nocache` tag, you will need to pass a context – much like how the `include` tag works when passing variables. Note that you do not have to pass global variables, such as `craft` or `currentUser`, but you will have to import your macros again.
+
+```twig
+{% set variable = 5 %}
+{% nocache with {x: variable} %}
+	The following value should be 5: {{ x }}
+{% endnocache %}
+```
+
 ## Example: User information
 
 Say you have a list of products you want to show on your page. Under each product, you want an "add to cart" button. However, you only want to show this button _if_ a user is logged in. Not only that, but you also want to disable the button if the user already has it in their cart. Unfortunately you're outputting 20 products a page with images, so caching the list seems like the responsible thing to do.
@@ -55,9 +64,9 @@ With `nocache` tags you can fix this very easily:
 	<article>
 		<figure>{{ product.image.first.img }}</figure>
 		<h1>{{ product.title }}</h1>
-		{% nocache %}
+		{% nocache with {productId: product.id} %}
 		{% if currentUser %}
-			<button{{ currentUser.cart.id(product.id).total > 0 ? ' disabled' }}>Add to cart</button>
+			<button{{ currentUser.cart.id(productId).total > 0 ? ' disabled' }}>Add to cart</button>
 		{% endif %}
 		{% endnocache %}
 	</article>
@@ -92,7 +101,7 @@ This causes an issue in situations like the following:
 {% set article = craft.entries.section('news').first %}
 {% cache %}
 	...
-	{% nocache %}
+	{% nocache with {article: article} %}
 		{{ article.title }}
 	{% endnocache %}
 {% endcache %}
@@ -106,7 +115,7 @@ There's a few ways around this. You could move the `{% set articles %}` statemen
 {% cache %}
 	{% set article = craft.entries.section('news').first %}
 	...
-	{% nocache %}
+	{% nocache with {article: article} %}
 		{{ article.title }}
 	{% endnocache %}
 {% endcache %}
