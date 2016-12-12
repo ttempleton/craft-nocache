@@ -53,7 +53,7 @@ class NoCache_Node extends \Twig_Node
 			$compiler
 				->write('$contextId = \\Craft\\StringHelper::randomString(8);')
 				->write("\\Craft\\craft()->cache->set('nocache_{$id}_' . \$contextId, \$subContext);")
-				->write("echo '<!--nocache-{$id}-' . \$contextId . '-->';");
+				->write("echo '<no-cache>{$id}-' . \$contextId . '</no-cache>';");
 		}
 		else
 		{
