@@ -1,5 +1,15 @@
 [
 	{
+		"version": "1.0.0",
+		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/1.0.0.zip",
+		"date": "2016-12-12T10:51:00+11:00",
+		"notes": [
+			"[Added] No-cache tags now require variables to be passed",
+			"[Fixed] Fixed issue with relative/storage filepaths on some hosts – cheers @mmikkel :)",
+			"[Fixed] Fixed conflicts with the Minify plugin"
+		]
+	},
+	{
 		"version": "0.1.5",
 		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/0.1.5.zip",
 		"date": "2016-07-11T19:57:00+10:00",
