@@ -86,31 +86,38 @@ class NoCachePlugin extends BasePlugin
 	{
 		parent::init();
 
-		// Only enable the plugin's functionality if template caching is enabled
-		if(craft()->noCache->isCacheEnabled())
+		// 1. Only enable the plugin's functionality if template caching is enabled
+		// 2. Watch for `nocache` blocks only if it's a site request
+		if(craft()->noCache->isCacheEnabled() && craft()->request->isSiteRequest())
 		{
-			// Watch for `nocache` blocks only if it's a site request
-			if(craft()->request->isSiteRequest())
+			// Working directory may change during `register_shutdown_function`, so let's deal with that by caching the
+			// current working directory to a constant
+			define('NOCACHEPLUGIN_CWD', getcwd());
+
+			// Capture the raw request output right before it's sent to the requester
+			register_shutdown_function(function()
 			{
-				// Capture the raw request output right before it's sent to the requester
-				register_shutdown_function(function()
+				$output = ob_get_clean();
+
+				// Find any `nocache` placeholder tags in the output
+				$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-([a-z0-9]+)-->/i', function($matches)
 				{
-					$output = ob_get_clean();
+					$id = $matches[1];
+					$type = $matches[2];
 
-					// Find any `nocache` placeholder tags in the output
-					$newOutput = preg_replace_callback('/<!--nocache-([a-z0-9]+)-([a-z0-9]+)-->/i', function($matches)
+					// Change working directory if need be
+					if(getcwd() !== NOCACHEPLUGIN_CWD)
 					{
-						$id = $matches[1];
-						$type = $matches[2];
+						chdir(NOCACHEPLUGIN_CWD);
+					}
 
-						// Force-render the internals of the `nocache` tag and put it in place of the placeholder
-						return craft()->noCache->render($id, $type);
+					// Force-render the internals of the `nocache` tag and put it in place of the placeholder
+					return craft()->noCache->render($id, $type);
 
-					}, $output);
+				}, $output);
 
-					echo $newOutput;
-				});
-			}
+				echo $newOutput;
+			});
 		}
 	}
 }
