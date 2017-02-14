@@ -52,7 +52,7 @@ class NoCache_Node extends \Twig_Node
 			// 2. Renders the placeholder tag which will later be replaced by the rendered body of the `nocache` tag.
 			$compiler
 				->write('$contextId = \\Craft\\StringHelper::randomString(8);')
-				->write("\\Craft\\craft()->cache->set('nocache_{$id}_' . \$contextId, \$subContext);")
+				->write("\\Craft\\craft()->cache->set('nocache_{$id}_' . \$contextId, \$subContext, 0);")
 				->write("echo '<no-cache>{$id}-' . \$contextId . '</no-cache>';");
 		}
 		else
