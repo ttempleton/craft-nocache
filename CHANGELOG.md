@@ -1,6 +1,9 @@
 ## Changelog
 
-### v1.0.0
+### v1.0.1
+- `Fixed` Fixed issue when clearing compiled templates but not template caches causes PHP errors when including non-existing no-cache templates
+
+#### v1.0.0
 - `Added` No-cache tags now require variables to be passed
 - `Fixed` Fixed issue with relative/storage filepaths on some hosts – cheers @mmikkel :)
 - `Fixed` Fixed conflicts with the [Minify plugin](https://github.com/nystudio107/minify)
