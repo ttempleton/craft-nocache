@@ -97,10 +97,11 @@ class NoCachePlugin extends BasePlugin
 			// Capture the raw request output right before it's sent to the requester
 			register_shutdown_function(function()
 			{
+				$devMode = craft()->config->get('devMode');
 				$output = ob_get_clean();
 
 				// Find any `nocache` placeholder tags in the output
-				$newOutput = preg_replace_callback('/<no-cache>([a-z0-9]+)-([a-z0-9]+)<\\/no-cache>/i', function($matches)
+				$newOutput = preg_replace_callback('/<no-cache>([a-z0-9]+)-([a-z0-9]+)<\\/no-cache>/i', function($matches) use($devMode)
 				{
 					$id = $matches[1];
 					$type = $matches[2];
@@ -112,7 +113,12 @@ class NoCachePlugin extends BasePlugin
 					}
 
 					// Force-render the internals of the `nocache` tag and put it in place of the placeholder
-					return craft()->noCache->render($id, $type);
+					$template = craft()->noCache->render($id, $type);
+
+					// If it failed to render, output the original tag in place so it can be used to debug
+					$debugOutput = $devMode ? $matches[0] : '';
+
+					return $template === false ? $debugOutput : $template;
 
 				}, $output);
 

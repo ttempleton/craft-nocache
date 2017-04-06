@@ -86,8 +86,14 @@ class NoCacheService extends BaseApplicationComponent
 	{
 		$environment = craft()->templates->getTwig();
 		$className = $this->getClassName($templateId);
+		$compiledTemplate = $this->getCompilePath($templateId);
 
-		require_once $this->getCompilePath($templateId);
+		if(!file_exists($compiledTemplate))
+		{
+			return false;
+		}
+
+		require_once $compiledTemplate;
 
 		$template = new $className($environment);
 		$context = $environment->getGlobals();
