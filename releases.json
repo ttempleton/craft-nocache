@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.0.1",
+		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/1.0.1.zip",
+		"date": "2017-04-06T10:15:00+10:00",
+		"notes": [
+			"[Fixed] Fixed issue when clearing compiled templates but not template caches causes PHP errors when including non-existing no-cache templates"
+		]
+	},
+	{
 		"version": "1.0.0",
 		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/1.0.0.zip",
 		"date": "2016-12-12T10:51:00+11:00",
