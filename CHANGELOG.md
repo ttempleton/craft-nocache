@@ -1,6 +1,9 @@
 ## Changelog
 
-### v1.0.1
+### v1.0.2
+- `Fixed` Fixed issue where no-cache blocks were sometimes not being rendered in live preview
+
+#### v1.0.1
 - `Fixed` Fixed issue when clearing compiled templates but not template caches causes PHP errors when including non-existing no-cache templates
 
 #### v1.0.0
