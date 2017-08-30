@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.0.2",
+		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/1.0.2.zip",
+		"date": "2017-08-30T14:20:00+10:00",
+		"notes": [
+			"[Fixed] Fixed issue where no-cache blocks were sometimes not being rendered in live preview"
+		]
+	},
+	{
 		"version": "1.0.1",
 		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/1.0.1.zip",
 		"date": "2017-04-06T10:15:00+10:00",
