@@ -30,35 +30,39 @@ class NoCache_Node extends \Twig_Node
 		// is to render the placeholder tags
 		$body = new NoCache_Node_Body($this->getNode('body'), $id, $this->lineno, $this->tag);
 
-		// Only bother tagging the `nocache` block if template caching is enabled
-		if(craft()->noCache->isCacheEnabled())
+		// Compile the internals to a separate compiled template file for later use
+		craft()->noCache->compile($id, $compiler, $body);
+
+		// Capture the passed context
+		$contextNode = $this->getNode('context');
+		if($contextNode)
 		{
-			// Compile the internals to a separate compiled template file for later use
-			craft()->noCache->compile($id, $compiler, $body);
-
-			// Capture the passed context
-			$contextNode = $this->getNode('context');
-			if($contextNode)
-			{
-				$compiler->raw('$subContext = ')->subcompile($contextNode)->raw(";\n");
-			}
-			else
-			{
-				$compiler->write('$subContext = [];');
-			}
-
-			// 1. Saves the captured context at that point in rendering to the cache. This is so when rendering the
-			//    internals of the `nocache` block later on, the context can be revived and will work as per usual.
-			// 2. Renders the placeholder tag which will later be replaced by the rendered body of the `nocache` tag.
-			$compiler
-				->write('$contextId = \\Craft\\StringHelper::randomString(8);')
-				->write("\\Craft\\craft()->cache->set('nocache_{$id}_' . \$contextId, \$subContext, 0);")
-				->write("echo '<no-cache>{$id}-' . \$contextId . '</no-cache>';");
+			$compiler->raw('$subContext = ')->subcompile($contextNode)->raw(";\n");
 		}
 		else
 		{
-			// Just directly compile the body if caching is disabled
-			$body->compile($compiler);
+			$compiler->write('$subContext = [];');
 		}
+
+		$compiler
+			// Only bother tagging the output for post-processing if caching is enabled
+			->write('if(\\Craft\\craft()->noCache->isCacheEnabled())')
+			->write('{')
+
+				// 1. Saves the captured context at that point in rendering to the cache. This is so when rendering the
+				//    internals of the `nocache` block later on, the context can be revived and will work as per usual.
+				// 2. Renders the placeholder tag which will later be replaced by the rendered body of the `nocache` tag.
+				->write('$contextId = \\Craft\\StringHelper::randomString(8);')
+				->write("\\Craft\\craft()->cache->set('nocache_{$id}_' . \$contextId, \$subContext, 0);")
+				->write("echo '<no-cache>{$id}-' . \$contextId . '</no-cache>';")
+
+			->write('}')
+			->write('else')
+			->write('{')
+
+				// Otherwise render the template with the context directly
+				->write("echo \\Craft\\craft()->noCache->render('{$id}', \$subContext);")
+
+			->write('}');
 	}
 }

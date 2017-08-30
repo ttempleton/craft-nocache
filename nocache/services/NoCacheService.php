@@ -79,7 +79,7 @@ class NoCacheService extends BaseApplicationComponent
 	 * Renders a NoCache compiled template.
 	 *
 	 * @param $templateId
-	 * @param $contextId
+	 * @param string|array $contextId
 	 * @return string - The rendered output of the template
 	 */
 	public function render($templateId, $contextId)
@@ -97,7 +97,9 @@ class NoCacheService extends BaseApplicationComponent
 
 		$template = new $className($environment);
 		$context = $environment->getGlobals();
-		$cachedContext = craft()->cache->get("nocache_{$templateId}_{$contextId}");
+		$cachedContext = empty($contextId) ? [] :
+			is_string($contextId) ? craft()->cache->get("nocache_{$templateId}_{$contextId}") :
+			is_array($contextId) ? $contextId : [];
 
 		// Merge the cached context (if it exists) onto the current context before rendering the body
 		// Make sure that the original context takes priority over the cached context, so variables that have been
