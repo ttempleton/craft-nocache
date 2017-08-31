@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.0.3",
+		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/1.0.3.zip",
+		"date": "2017-09-01T09:30:00+10:00",
+		"notes": [
+			"[Fixed] Fixed issue where missing context data could result in a PHP error"
+		]
+	},
+	{
 		"version": "1.0.2",
 		"downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/1.0.2.zip",
 		"date": "2017-08-30T14:20:00+10:00",
