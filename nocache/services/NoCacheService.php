@@ -97,16 +97,15 @@ class NoCacheService extends BaseApplicationComponent
 
 		$template = new $className($environment);
 		$context = $environment->getGlobals();
-		$cachedContext = empty($contextId) ? [] :
-			is_string($contextId) ? craft()->cache->get("nocache_{$templateId}_{$contextId}") :
-			is_array($contextId) ? $contextId : [];
+		$cachedContext = is_string($contextId) ? craft()->cache->get("nocache_{$templateId}_{$contextId}") : $contextId;
+		$cachedContext = is_array($cachedContext) ? $cachedContext : [];
 
 		// Merge the cached context (if it exists) onto the current context before rendering the body
 		// Make sure that the original context takes priority over the cached context, so variables that have been
 		// updated are used instead (such as the `now` global variable)
-		if($cachedContext)
+		if(!empty($cachedContext))
 		{
-			$context += $cachedContext;
+			$context = array_merge($context, $cachedContext);
 		}
 
 		return $template->render($context);
