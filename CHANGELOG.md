@@ -1,6 +1,9 @@
 ## Changelog
 
-### v1.0.2
+### v1.0.3
+- `Fixed` Fixed issue where missing context data could result in a PHP error
+
+#### v1.0.2
 - `Fixed` Fixed issue where no-cache blocks were sometimes not being rendered in live preview
 
 #### v1.0.1
