@@ -1,12 +1,22 @@
 <?php
-namespace Craft;
+namespace benf\nocache;
+
+use yii\base\Component;
+
+use Twig_Compiler;
+use Twig_Node;
+use Twig_Node_Body;
+
+use Craft;
+use craft\helpers\FileHelper;
+
+use benf\nocache\Node_Module;
 
 /**
- * Class NoCacheService
- *
- * @package Craft
+ * Class Service
+ * @package benf\nocache
  */
-class NoCacheService extends BaseApplicationComponent
+class Service extends Component
 {
 	/**
 	 * Returns the path of the NoCache compiled templates directory.
@@ -15,12 +25,12 @@ class NoCacheService extends BaseApplicationComponent
 	 * @param string|null $id - The template ID
 	 * @return string
 	 */
-	public function getCompilePath($id = null)
+	public function getCompilePath(string $id = null): string
 	{
-		$path = craft()->path->getCompiledTemplatesPath() . 'nocache/';
-		IOHelper::ensureFolderExists($path);
+		$path = Craft::$app->getPath()->getCompiledTemplatesPath(false) . DIRECTORY_SEPARATOR . 'nocache' . DIRECTORY_SEPARATOR;
+		FileHelper::createDirectory($path);
 
-		if($id)
+		if ($id)
 		{
 			$path .= $this->getFileName($id);
 		}
@@ -34,7 +44,7 @@ class NoCacheService extends BaseApplicationComponent
 	 * @param string $id - The template ID
 	 * @return string
 	 */
-	public function getClassName($id)
+	public function getClassName(string $id): string
 	{
 		return '__NoCacheTemplate_' . $id;
 	}
@@ -45,7 +55,7 @@ class NoCacheService extends BaseApplicationComponent
 	 * @param string $id - The template ID
 	 * @return string
 	 */
-	public function getFileName($id)
+	public function getFileName(string $id): string
 	{
 		return 'nocache_' . $id . '.php';
 	}
@@ -56,7 +66,7 @@ class NoCacheService extends BaseApplicationComponent
 	 * @param string $fileName - The template filename
 	 * @return string
 	 */
-	public function getIdFromFileName($fileName)
+	public function getIdFromFileName(string $fileName): string
 	{
 		return substr($fileName, strlen('nocache_'), -strlen('.php'));
 	}
@@ -66,13 +76,13 @@ class NoCacheService extends BaseApplicationComponent
 	 *
 	 * @return bool
 	 */
-	public function isCacheEnabled()
+	public function isCacheEnabled(): bool
 	{
-		$config = craft()->config;
-		$request = craft()->request;
+		$generalConfig = Craft::$app->getConfig()->getGeneral();
+		$request = Craft::$app->getRequest();
 
-		// See `app/atc/templating/twigextensions/Cache_Node.php` line 47
-		return $config->get('enableTemplateCaching') && !$request->isLivePreview() && !$request->getToken();
+		// See `craftcms/cms/src/web/twig/nodes/CacheNode.php` line 52
+		return $generalConfig->enableTemplateCaching && !$request->getIsLivePreview() && !$request->getToken();
 	}
 
 	/**
@@ -80,30 +90,30 @@ class NoCacheService extends BaseApplicationComponent
 	 *
 	 * @param $templateId
 	 * @param string|array $contextId
-	 * @return string - The rendered output of the template
+	 * @return string|null - The rendered output of the template
 	 */
 	public function render($templateId, $contextId)
 	{
-		$environment = craft()->templates->getTwig();
+		$environment = Craft::$app->getView()->getTwig();
 		$className = $this->getClassName($templateId);
 		$compiledTemplate = $this->getCompilePath($templateId);
 
-		if(!file_exists($compiledTemplate))
+		if (!file_exists($compiledTemplate))
 		{
-			return false;
+			return null;
 		}
 
 		require_once $compiledTemplate;
 
 		$template = new $className($environment);
 		$context = $environment->getGlobals();
-		$cachedContext = is_string($contextId) ? craft()->cache->get("nocache_{$templateId}_{$contextId}") : $contextId;
+		$cachedContext = is_string($contextId) ? Craft::$app->getCache()->get("nocache_{$templateId}_{$contextId}") : $contextId;
 		$cachedContext = is_array($cachedContext) ? $cachedContext : [];
 
 		// Merge the cached context (if it exists) onto the current context before rendering the body
 		// Make sure that the original context takes priority over the cached context, so variables that have been
 		// updated are used instead (such as the `now` global variable)
-		if(!empty($cachedContext))
+		if (!empty($cachedContext))
 		{
 			$context = array_merge($context, $cachedContext);
 		}
@@ -115,14 +125,11 @@ class NoCacheService extends BaseApplicationComponent
 	 * Compiles a Twig node independently to it's own compiled template file.
 	 * This method is used to save the internals of a `nocache` tag for later use.
 	 *
-	 * @param $id - The template ID
-	 * @param \Twig_Compiler $compiler
-	 * @param \Twig_Node $node
+	 * @param string $id - The template ID
+	 * @param Twig_Node $node
 	 */
-	public function compile($id, \Twig_Compiler $compiler, \Twig_Node $node)
+	public function compile(string $id, Twig_Node $node)
 	{
-		require_once __DIR__ . '/../twigextensions/NoCache_Node_Module.php';
-
 		// Create a module node as it'll compile to a complete compiled template class, as opposed to just compiling the
 		// node directly, which will only generate the internals of the render method for that class.
 		// Modules expect a Twig template file to be the source of their compilation. Since this last parameter is
@@ -130,17 +137,17 @@ class NoCacheService extends BaseApplicationComponent
 		// This is technically incorrect as the compiler uses this file as a way of mapping errors to line numbers,
 		// because the internals of the `nocache` block have been isolated from the template and are being treated
 		// as it's own separate template. This means the mapping of errors to line numbers will be off.
-		$module = new NoCache_Node_Module(new \Twig_Node_Body([$node]), $id, $compiler->getFilename());
+		$module = new Node_Module(new Twig_Node_Body([$node]), $id, $node->getTemplateName());
 
-		$environment = craft()->templates->getTwig();
+		$environment = Craft::$app->getView()->getTwig();
 
 		// Compile the module node and get it's source code
-		$nodeCompiler = new \Twig_Compiler($environment);
+		$nodeCompiler = new Twig_Compiler($environment);
 		$nodeCompiler->compile($module);
 		$source = $nodeCompiler->getSource();
 
 		// Finally create the compiled template file
-		$file = IOHelper::createFile($this->getCompilePath($id));
-		$file->write($source, false);
+		$path = $this->getCompilePath($id);
+		FileHelper::writeToFile($path, $source);
 	}
 }
