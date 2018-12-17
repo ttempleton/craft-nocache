@@ -5,8 +5,6 @@ use Twig_Node;
 use Twig_Token;
 use Twig_TokenParser;
 
-use benf\nocache\Node;
-
 /**
  * Class TokenParser
  * @package benf\nocache

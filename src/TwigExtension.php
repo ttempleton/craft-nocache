@@ -3,8 +3,6 @@ namespace benf\nocache;
 
 use Twig_Extension;
 
-use benf\nocache\TokenParser;
-
 /**
  * Class TwigExtension
  * @package benf\nocache

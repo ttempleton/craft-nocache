@@ -10,8 +10,6 @@ use Twig_Node_Body;
 use Craft;
 use craft\helpers\FileHelper;
 
-use benf\nocache\Node_Module;
-
 /**
  * Class Service
  * @package benf\nocache
