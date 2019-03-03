@@ -1,5 +1,5 @@
 <?php
-namespace ttempleton\nocache;
+namespace ttempleton\nocache\twig;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -12,7 +12,7 @@ use ttempleton\nocache\Plugin as NoCache;
 /**
  * Class Node
  *
- * @package ttempleton\nocache
+ * @package ttempleton\nocache\twig
  * @author Benjamin Fleming
  * @author Thomas Templeton
  * @since 2.0.0

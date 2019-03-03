@@ -1,17 +1,17 @@
 <?php
-namespace ttempleton\nocache;
+namespace ttempleton\nocache\twig;
 
 use Twig_Extension;
 
 /**
- * Class TwigExtension
+ * Class Extension
  *
- * @package ttempleton\nocache
+ * @package ttempleton\nocache\twig
  * @author Benjamin Fleming
  * @author Thomas Templeton
  * @since 2.0.0
  */
-class TwigExtension extends Twig_Extension
+class Extension extends Twig_Extension
 {
 	public function getName()
 	{

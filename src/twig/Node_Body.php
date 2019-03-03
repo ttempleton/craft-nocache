@@ -1,5 +1,5 @@
 <?php
-namespace ttempleton\nocache;
+namespace ttempleton\nocache\twig;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -8,7 +8,7 @@ use Twig_Node;
  * Class Node_Body
  * This will serve as the node that'll actually render the contents of a `nocache` block
  *
- * @package ttempleton\nocache
+ * @package ttempleton\nocache\twig
  * @author Benjamin Fleming
  * @author Thomas Templeton
  * @since 2.0.0

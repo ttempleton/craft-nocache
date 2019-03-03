@@ -10,6 +10,8 @@ use Twig_Node_Body;
 use Craft;
 use craft\helpers\FileHelper;
 
+use ttempleton\nocache\twig\Node_Module;
+
 /**
  * Class Service
  *
