@@ -42,12 +42,12 @@ Say you have a list of products you want to show on your page. Under each produc
 
 ```twig
 {% cache %}
-{% for product in craft.entries.section('products').limit(20) %}
+{% for product in craft.entries().section('products').limit(20).all() %}
 	<article>
-		<figure>{{ product.image.first.img }}</figure>
+		<figure>{{ product.image.one().img }}</figure>
 		<h1>{{ product.title }}</h1>
 		{% if currentUser %}
-			<button{{ currentUser.cart.id(product.id).total > 0 ? ' disabled' }}>Add to cart</button>
+			<button{{ currentUser.cart.id(product.id).count() > 0 ? ' disabled' }}>Add to cart</button>
 		{% endif %}
 	</article>
 {% endfor %}
@@ -60,13 +60,13 @@ With `nocache` tags you can fix this very easily:
 
 ```twig
 {% cache %}
-{% for product in craft.entries.section('products').limit(20) %}
+{% for product in craft.entries().section('products').limit(20).all() %}
 	<article>
-		<figure>{{ product.image.first.img }}</figure>
+		<figure>{{ product.image.one().img }}</figure>
 		<h1>{{ product.title }}</h1>
 		{% nocache with {productId: product.id} %}
 		{% if currentUser %}
-			<button{{ currentUser.cart.id(productId).total > 0 ? ' disabled' }}>Add to cart</button>
+			<button{{ currentUser.cart.id(productId).count() > 0 ? ' disabled' }}>Add to cart</button>
 		{% endif %}
 		{% endnocache %}
 	</article>
@@ -84,7 +84,7 @@ Well, now your CSRF tokens are going to be cached and there's basically nothing 
 
 ```twig
 <form>
-	{% nocache %}{{ getCsrfInput() }}{% endnocache %}
+	{% nocache %}{{ csrfInput() }}{% endnocache %}
 	...
 </form>
 ```
@@ -98,7 +98,7 @@ Content inside `nocache` blocks will render slightly different than normal. Vari
 This causes an issue in situations like the following:
 
 ```twig
-{% set article = craft.entries.section('news').first %}
+{% set article = craft.entries().section('news').one() %}
 {% cache %}
 	...
 	{% nocache with {article: article} %}
@@ -113,7 +113,7 @@ There's a few ways around this. You could move the `{% set articles %}` statemen
 
 ```twig
 {% cache %}
-	{% set article = craft.entries.section('news').first %}
+	{% set article = craft.entries().section('news').one() %}
 	...
 	{% nocache with {article: article} %}
 		{{ article.title }}
@@ -127,7 +127,7 @@ The other option is to query for the article inside the `nocache` block. This ca
 {% cache %}
 	...
 	{% nocache %}
-		{% set article = craft.entries.section('news').first %}
+		{% set article = craft.entries().section('news').one() %}
 		{{ article.title }}
 	{% endnocache %}
 {% endcache %}
