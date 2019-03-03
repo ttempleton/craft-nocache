@@ -36,6 +36,24 @@ If you need to reference variables outside of the `nocache` tag, you will need t
 {% endnocache %}
 ```
 
+## Requirements
+
+No-Cache requires Craft CMS 3.0.0 or later. For the Craft 2 version, see the [`craft-2`](https://github.com/ttempleton/craft-nocache/tree/craft-2) branch.
+
+## Installation
+
+No-Cache can be installed from the [Craft Plugin Store](https://plugins.craftcms.com/) or with [Composer](https://packagist.org/).
+
+### Craft Plugin Store
+Open your project's control panel, navigate to the Plugin Store, search for No-Cache and click Install.
+
+### Composer
+Open your terminal, navigate to your project's root directory and run the following command:
+```
+composer require ttempleton/craft-nocache
+```
+Then open your project's control panel, navigate to Settings &rarr; Plugins, find No-Cache and click Install.
+
 ## Example: User information
 
 Say you have a list of products you want to show on your page. Under each product, you want an "add to cart" button. However, you only want to show this button _if_ a user is logged in. Not only that, but you also want to disable the button if the user already has it in their cart. Unfortunately you're outputting 20 products a page with images, so caching the list seems like the responsible thing to do.
