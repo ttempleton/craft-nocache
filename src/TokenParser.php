@@ -1,5 +1,5 @@
 <?php
-namespace benf\nocache;
+namespace ttempleton\nocache;
 
 use Twig_Node;
 use Twig_Token;
@@ -7,7 +7,11 @@ use Twig_TokenParser;
 
 /**
  * Class TokenParser
- * @package benf\nocache
+ *
+ * @package ttempleton\nocache
+ * @author Benjamin Fleming
+ * @author Thomas Templeton
+ * @since 2.0.0
  */
 class TokenParser extends Twig_TokenParser
 {

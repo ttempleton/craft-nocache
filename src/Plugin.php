@@ -1,5 +1,5 @@
 <?php
-namespace benf\nocache;
+namespace ttempleton\nocache;
 
 use yii\base\Event;
 
@@ -10,7 +10,11 @@ use craft\web\View;
 
 /**
  * Class Plugin
- * @package benf\nocache
+ *
+ * @package ttempleton\nocache
+ * @author Benjamin Fleming
+ * @author Thomas Templeton
+ * @since 2.0.0
  */
 class Plugin extends BasePlugin
 {

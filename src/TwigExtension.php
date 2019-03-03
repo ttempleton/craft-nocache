@@ -1,11 +1,15 @@
 <?php
-namespace benf\nocache;
+namespace ttempleton\nocache;
 
 use Twig_Extension;
 
 /**
  * Class TwigExtension
- * @package benf\nocache
+ *
+ * @package ttempleton\nocache
+ * @author Benjamin Fleming
+ * @author Thomas Templeton
+ * @since 2.0.0
  */
 class TwigExtension extends Twig_Extension
 {

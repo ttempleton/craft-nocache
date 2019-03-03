@@ -1,5 +1,5 @@
 <?php
-namespace benf\nocache;
+namespace ttempleton\nocache;
 
 use yii\base\Component;
 
@@ -12,7 +12,11 @@ use craft\helpers\FileHelper;
 
 /**
  * Class Service
- * @package benf\nocache
+ *
+ * @package ttempleton\nocache
+ * @author Benjamin Fleming
+ * @author Thomas Templeton
+ * @since 2.0.0
  */
 class Service extends Component
 {

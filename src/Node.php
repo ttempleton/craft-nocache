@@ -1,5 +1,5 @@
 <?php
-namespace benf\nocache;
+namespace ttempleton\nocache;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -7,12 +7,15 @@ use Twig_Node;
 use Craft;
 use craft\helpers\StringHelper;
 
-use benf\nocache\Plugin as NoCache;
-use benf\nocache\Node_Body;
+use ttempleton\nocache\Plugin as NoCache;
 
 /**
  * Class Node
- * @package benf\nocache
+ *
+ * @package ttempleton\nocache
+ * @author Benjamin Fleming
+ * @author Thomas Templeton
+ * @since 2.0.0
  */
 class Node extends Twig_Node
 {

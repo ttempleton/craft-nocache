@@ -1,5 +1,5 @@
 {
-  "name": "benjamminf/craft-nocache",
+  "name": "ttempleton/craft-nocache",
   "description": "A Twig extension to escape caching inside cache blocks",
   "version": "2.0.0",
   "type": "craft-plugin",
@@ -11,28 +11,28 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Benjamin Fleming",
-      "homepage": "https://github.com/benjamminf"
+      "name": "Thomas Templeton",
+      "homepage": "https://github.com/ttempleton"
     }
   ],
   "require": {
     "craftcms/cms": "^3.0.0"
   },
   "support": {
-    "issues": "https://github.com/benjamminf/craft-nocache/issues",
-    "source": "https://github.com/benjamminf/craft-nocache",
-    "rss": "https://github.com/benjamminf/craft-nocache/commits/master.atom"
+    "issues": "https://github.com/ttempleton/craft-nocache/issues",
+    "source": "https://github.com/ttempleton/craft-nocache",
+    "rss": "https://github.com/ttempleton/craft-nocache/commits/master.atom"
   },
   "autoload": {
     "psr-4": {
-      "benf\\nocache\\": "src/"
+      "ttempleton\\nocache\\": "src/"
     }
   },
   "extra": {
     "handle": "nocache",
     "name": "No-Cache",
-    "class": "benf\\nocache\\Plugin",
-    "changelogUrl": "https://github.com/benjamminf/craft-nocache/blob/master/CHANGELOG.md",
-    "downloadUrl": "https://github.com/benjamminf/craft-nocache/archive/master.zip"
+    "class": "ttempleton\\nocache\\Plugin",
+    "changelogUrl": "https://github.com/ttempleton/craft-nocache/blob/master/CHANGELOG.md",
+    "downloadUrl": "https://github.com/ttempleton/craft-nocache/archive/master.zip"
   }
 }

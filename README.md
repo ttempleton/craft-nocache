@@ -134,3 +134,7 @@ The other option is to query for the article inside the `nocache` block. This ca
 ```
 
 Every situation will be different, so use your best judgement.
+
+---
+
+*Big thanks to [Ben Fleming](https://github.com/benjamminf) for creating No-Cache and for letting me take it over.*
