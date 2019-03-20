@@ -47,6 +47,26 @@ class Node_Module extends Twig_Node_Module
 	{
 		$className = NoCache::$plugin->methods->getClassName($this->id);
 
+		// Craft 3.1.18 onward requires Twig ^2.7.2 which needs these use statements
+		// Checking whether `craft\errors\DeprecationException` exists as that was also added in 3.1.18
+		// (doesn't seem necessary to check Twig as Twig 2.7 breaks prior versions of Craft)
+		if (class_exists('craft\errors\DeprecationException'))
+		{
+			$compiler
+				->write("\n\n")
+				->write("use Twig\Environment;\n")
+				->write("use Twig\Error\LoaderError;\n")
+				->write("use Twig\Error\RuntimeError;\n")
+				->write("use Twig\Extension\SandboxExtension;\n")
+				->write("use Twig\Markup;\n")
+				->write("use Twig\Sandbox\SecurityError;\n")
+				->write("use Twig\Sandbox\SecurityNotAllowedTagError;\n")
+				->write("use Twig\Sandbox\SecurityNotAllowedFilterError;\n")
+				->write("use Twig\Sandbox\SecurityNotAllowedFunctionError;\n")
+				->write("use Twig\Source;\n")
+				->write("use Twig\Template;");
+		}
+
 		$compiler
 			->write("\n\n")
 			// If the filename contains */, add a blank to avoid a PHP parse error
