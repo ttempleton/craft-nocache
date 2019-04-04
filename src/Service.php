@@ -76,7 +76,7 @@ class Service extends Component
 	}
 
 	/**
-	 * Returns if caching is enabled for the request.
+	 * Returns whether caching is enabled for the request.
 	 *
 	 * @return bool
 	 */
@@ -85,8 +85,8 @@ class Service extends Component
 		$generalConfig = Craft::$app->getConfig()->getGeneral();
 		$request = Craft::$app->getRequest();
 
-		// See `craftcms/cms/src/web/twig/nodes/CacheNode.php` line 52
-		return $generalConfig->enableTemplateCaching && !$request->getIsLivePreview() && !$request->getToken();
+		// See `craftcms/cms/src/web/twig/nodes/CacheNode.php` line 54
+		return $generalConfig->enableTemplateCaching && !$request->getIsLivePreview() && !$request->getIsConsoleRequest() && !$request->getToken();
 	}
 
 	/**
