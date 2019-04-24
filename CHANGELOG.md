@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3 - 2019-04-24
+### Fixed
+- Fixed incompatibility with Craft 3.1.24
+
 ## 2.0.2 - 2019-04-04
 ### Fixed
 - Fixed error caused by No-Cache when attempting a project config sync from a terminal (thanks @Coysh)

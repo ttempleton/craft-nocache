@@ -26,7 +26,9 @@ class Node extends Twig_Node
 			'context' => $context,
 		], [], $line, $tag);
 
-		$this->setTemplateName($body->getTemplateName());
+		$setMethod = method_exists($this, 'setSourceContext') ? 'setSourceContext' : 'setTemplateName';
+		$setContent = method_exists($this, 'setSourceContext') ? $body->getSourceContext() : $body->getTemplateName();
+		$this->$setMethod($setContent);
 	}
 
 	public function compile(Twig_Compiler $compiler)
@@ -40,7 +42,9 @@ class Node extends Twig_Node
 		// This will serve as the node that'll actually render the contents of that block, whereas this node's purpose
 		// is to render the placeholder tags
 		$bodyNode = $this->getNode('body');
-		$bodyNode->setTemplateName($this->getTemplateName());
+		$setMethod = method_exists($bodyNode, 'setSourceContext') ? 'setSourceContext' : 'setTemplateName';
+		$setContent = method_exists($bodyNode, 'setSourceContext') ? $this->getSourceContext() : $this->getTemplateName();
+		$this->$setMethod($setContent);
 
 		$body = new Node_Body($bodyNode, $id, $this->lineno, $this->tag);
 

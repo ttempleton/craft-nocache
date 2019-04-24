@@ -22,7 +22,9 @@ class Node_Body extends Twig_Node
 		parent::__construct(['body' => $body], [], $line, $tag);
 
 		$this->id = $id;
-		$this->setTemplateName($body->getTemplateName());
+		$setMethod = method_exists($this, 'setSourceContext') ? 'setSourceContext' : 'setTemplateName';
+		$setContent = method_exists($this, 'setSourceContext') ? $body->getSourceContext() : $body->getTemplateName();
+		$this->$setMethod($setContent);
 	}
 
 	public function compile(Twig_Compiler $compiler)
