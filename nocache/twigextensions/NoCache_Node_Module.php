@@ -31,6 +31,23 @@ class NoCache_Node_Module extends \Twig_Node_Module
 	{
 		$className = craft()->noCache->getClassName($this->id);
 
+		// Craft 2.7.7 upgraded to Twig 1.38 which needs these use statements
+		if (\Twig_Environment::VERSION_ID >= 13800)
+		{
+			$compiler
+				->write("\n\n")
+				->write("use Twig\Environment;\n")
+				->write("use Twig\Error\LoaderError;\n")
+				->write("use Twig\Error\RuntimeError;\n")
+				->write("use Twig\Markup;\n")
+				->write("use Twig\Sandbox\SecurityError;\n")
+				->write("use Twig\Sandbox\SecurityNotAllowedTagError;\n")
+				->write("use Twig\Sandbox\SecurityNotAllowedFilterError;\n")
+				->write("use Twig\Sandbox\SecurityNotAllowedFunctionError;\n")
+				->write("use Twig\Source;\n")
+				->write("use Twig\Template;");
+		}
+
 		$compiler
 			->write("\n\n")
 			// If the filename contains */, add a blank to avoid a PHP parse error
