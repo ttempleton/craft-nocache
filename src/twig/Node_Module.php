@@ -74,5 +74,13 @@ class Node_Module extends Twig_Node_Module
 			->write('class ' . $className)->raw(sprintf(" extends %s\n", $compiler->getEnvironment()->getBaseTemplateClass()))
 			->write("{\n")
 				->indent();
+
+		// Craft 3.1.29 upgraded to Twig 2.11 which needs these
+		if (\Twig_Environment::VERSION_ID >= 21100)
+		{
+			$compiler
+				->write("private \$source;\n")
+				->write("private \$macros = [];\n\n");
+		}
 	}
 }

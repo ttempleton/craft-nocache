@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.4 - 2019-06-07
+### Fixed
+- Fixed incompatibility with Craft 3.1.29
+
 ## 2.0.3 - 2019-04-24
 ### Fixed
 - Fixed incompatibility with Craft 3.1.24
