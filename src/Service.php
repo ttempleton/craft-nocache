@@ -3,12 +3,12 @@ namespace ttempleton\nocache;
 
 use yii\base\Component;
 
-use Twig_Compiler;
-use Twig_Node;
-use Twig_Node_Body;
-
 use Craft;
 use craft\helpers\FileHelper;
+
+use Twig\Compiler as TwigCompiler;
+use Twig\Node\Node as TwigNode;
+use Twig\Node\BodyNode as TwigBodyNode;
 
 use ttempleton\nocache\twig\Node_Module;
 
@@ -130,9 +130,9 @@ class Service extends Component
 	 * This method is used to save the internals of a `nocache` tag for later use.
 	 *
 	 * @param string $id - The template ID
-	 * @param Twig_Node $node
+	 * @param TwigNode $node
 	 */
-	public function compile(string $id, Twig_Node $node)
+	public function compile(string $id, TwigNode $node)
 	{
 		// Create a module node as it'll compile to a complete compiled template class, as opposed to just compiling the
 		// node directly, which will only generate the internals of the render method for that class.
@@ -142,12 +142,12 @@ class Service extends Component
 		// because the internals of the `nocache` block have been isolated from the template and are being treated
 		// as it's own separate template. This means the mapping of errors to line numbers will be off.
 		$fileName = method_exists($node, 'setSourceContext') ? $node->getSourceContext()->getName() : $node->getTemplateName();
-		$module = new Node_Module(new Twig_Node_Body([$node]), $id, $fileName);
+		$module = new Node_Module(new TwigBodyNode([$node]), $id, $fileName);
 
 		$environment = Craft::$app->getView()->getTwig();
 
 		// Compile the module node and get it's source code
-		$nodeCompiler = new Twig_Compiler($environment);
+		$nodeCompiler = new TwigCompiler($environment);
 		$nodeCompiler->compile($module);
 		$source = $nodeCompiler->getSource();
 

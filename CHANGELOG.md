@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Replaced usage of Twig class names deprecated as of Twig 2.7
+
 ## 2.0.4 - 2019-06-07
 ### Fixed
 - Fixed incompatibility with Craft 3.1.29

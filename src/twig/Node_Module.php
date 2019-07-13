@@ -1,11 +1,12 @@
 <?php
 namespace ttempleton\nocache\twig;
 
-use Twig_Compiler;
-use Twig_Node;
-use Twig_Node_Body;
-use Twig_Node_Module;
-use Twig_Source;
+use Twig\Compiler as TwigCompiler;
+use Twig\Node\Node as TwigNode;
+use Twig\Node\BodyNode as TwigBodyNode;
+use Twig\Node\ModuleNode as TwigModuleNode;
+use Twig\Source as TwigSource;
+use Twig\Environment as TwigEnvironment;
 
 use ttempleton\nocache\Plugin as NoCache;
 
@@ -17,21 +18,21 @@ use ttempleton\nocache\Plugin as NoCache;
  * @author Thomas Templeton
  * @since 2.0.0
  */
-class Node_Module extends Twig_Node_Module
+class Node_Module extends TwigModuleNode
 {
 	protected $id;
 
-	public function __construct(Twig_Node $node, string $id, string $fileName)
+	public function __construct(TwigNode $node, string $id, string $fileName)
 	{
 		// Pass in some empty objects to satisfy the required parameters
 		parent::__construct(
-			new Twig_Node_Body([$node]),
+			new TwigBodyNode([$node]),
 			null,
-			new Twig_Node(),
-			new Twig_Node(),
-			new Twig_Node(),
+			new TwigNode(),
+			new TwigNode(),
+			new TwigNode(),
 			[],
-			new Twig_Source('', $fileName)
+			new TwigSource('', $fileName)
 		);
 
 		$this->id = $id;
@@ -41,16 +42,14 @@ class Node_Module extends Twig_Node_Module
 	 * Override the class header so the class name can be changed to reference the NoCache block instead of the
 	 * template.
 	 *
-	 * @param Twig_Compiler $compiler
+	 * @param TwigCompiler $compiler
 	 */
-	protected function compileClassHeader(Twig_Compiler $compiler)
+	protected function compileClassHeader(TwigCompiler $compiler)
 	{
 		$className = NoCache::$plugin->methods->getClassName($this->id);
 
-		// Craft 3.1.18 onward requires Twig ^2.7.2 which needs these use statements
-		// Checking whether `craft\errors\DeprecationException` exists as that was also added in 3.1.18
-		// (doesn't seem necessary to check Twig as Twig 2.7 breaks prior versions of Craft)
-		if (class_exists('craft\errors\DeprecationException'))
+		// Craft 3.1.18 upgraded to Twig 2.7 which needs these
+		if (TwigEnvironment::VERSION_ID >= 20700)
 		{
 			$compiler
 				->write("\n\n")
@@ -76,7 +75,7 @@ class Node_Module extends Twig_Node_Module
 				->indent();
 
 		// Craft 3.1.29 upgraded to Twig 2.11 which needs these
-		if (\Twig_Environment::VERSION_ID >= 21100)
+		if (TwigEnvironment::VERSION_ID >= 21100)
 		{
 			$compiler
 				->write("private \$source;\n")

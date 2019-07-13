@@ -1,11 +1,11 @@
 <?php
 namespace ttempleton\nocache\twig;
 
-use Twig_Compiler;
-use Twig_Node;
-
 use Craft;
 use craft\helpers\StringHelper;
+
+use Twig\Compiler as TwigCompiler;
+use Twig\Node\Node as TwigNode;
 
 use ttempleton\nocache\Plugin as NoCache;
 
@@ -17,9 +17,9 @@ use ttempleton\nocache\Plugin as NoCache;
  * @author Thomas Templeton
  * @since 2.0.0
  */
-class Node extends Twig_Node
+class Node extends TwigNode
 {
-	public function __construct(Twig_Node $body, Twig_Node $context, int $line, string $tag = null)
+	public function __construct(TwigNode $body, TwigNode $context, int $line, string $tag = null)
 	{
 		parent::__construct([
 			'body' => $body,
@@ -31,7 +31,7 @@ class Node extends Twig_Node
 		$this->$setMethod($setContent);
 	}
 
-	public function compile(Twig_Compiler $compiler)
+	public function compile(TwigCompiler $compiler)
 	{
 		$compiler->addDebugInfo($this);
 

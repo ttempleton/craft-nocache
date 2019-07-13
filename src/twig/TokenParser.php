@@ -1,9 +1,9 @@
 <?php
 namespace ttempleton\nocache\twig;
 
-use Twig_Node;
-use Twig_Token;
-use Twig_TokenParser;
+use Twig\Node\Node as TwigNode;
+use Twig\Token as TwigToken;
+use Twig\TokenParser\AbstractTokenParser;
 
 /**
  * Class TokenParser
@@ -13,25 +13,25 @@ use Twig_TokenParser;
  * @author Thomas Templeton
  * @since 2.0.0
  */
-class TokenParser extends Twig_TokenParser
+class TokenParser extends AbstractTokenParser
 {
 	public function getTag()
 	{
 		return 'nocache';
 	}
 
-	public function parse(Twig_Token $token)
+	public function parse(TwigToken $token)
 	{
 		$parser = $this->parser;
 		$stream = $parser->getStream();
 
 		$context = null;
-		if ($stream->nextIf(Twig_Token::NAME_TYPE, 'with'))
+		if ($stream->nextIf(TwigToken::NAME_TYPE, 'with'))
 		{
 			$context = $parser->getExpressionParser()->parseExpression();
 		}
 
-		$stream->expect(Twig_Token::BLOCK_END_TYPE);
+		$stream->expect(TwigToken::BLOCK_END_TYPE);
 
 		$body = $parser->subparse([$this, 'decideEnd']);
 		$setMethod = method_exists($body, 'setSourceContext') ? 'setSourceContext' : 'setTemplateName';
@@ -39,17 +39,17 @@ class TokenParser extends Twig_TokenParser
 		$body->$setMethod($setContent);
 
 		$stream->next();
-		$stream->expect(Twig_Token::BLOCK_END_TYPE);
+		$stream->expect(TwigToken::BLOCK_END_TYPE);
 
 		return new Node(
 			$body,
-			$context ?? new Twig_Node(),
+			$context ?? new TwigNode(),
 			$token->getLine(),
 			$this->getTag()
 		);
 	}
 
-	public function decideEnd(Twig_Token $token)
+	public function decideEnd(TwigToken $token)
 	{
 		return $token->test(['endnocache']);
 	}

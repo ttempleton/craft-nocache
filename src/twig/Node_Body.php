@@ -1,8 +1,8 @@
 <?php
 namespace ttempleton\nocache\twig;
 
-use Twig_Compiler;
-use Twig_Node;
+use Twig\Compiler as TwigCompiler;
+use Twig\Node\Node as TwigNode;
 
 /**
  * Class Node_Body
@@ -13,11 +13,11 @@ use Twig_Node;
  * @author Thomas Templeton
  * @since 2.0.0
  */
-class Node_Body extends Twig_Node
+class Node_Body extends TwigNode
 {
 	protected $id;
 
-	public function __construct(Twig_Node $body, string $id, int $line, string $tag = null)
+	public function __construct(TwigNode $body, string $id, int $line, string $tag = null)
 	{
 		parent::__construct(['body' => $body], [], $line, $tag);
 
@@ -27,7 +27,7 @@ class Node_Body extends Twig_Node
 		$this->$setMethod($setContent);
 	}
 
-	public function compile(Twig_Compiler $compiler)
+	public function compile(TwigCompiler $compiler)
 	{
 		$compiler->subcompile($this->getNode('body'));
 	}
