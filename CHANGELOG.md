@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.0.5 - 2019-10-08
 ### Fixed
 - Changed how No-Cache compiled template class names are set, in a way that should be more future-proof
 - Replaced usage of Twig class names deprecated as of Twig 2.7
