@@ -9,8 +9,8 @@ use craft\helpers\FileHelper;
 use Twig\Compiler as TwigCompiler;
 use Twig\Node\Node as TwigNode;
 use Twig\Node\BodyNode as TwigBodyNode;
-
-use ttempleton\nocache\twig\Node_Module;
+use Twig\Node\ModuleNode as TwigModuleNode;
+use Twig\Source as TwigSource;
 
 /**
  * Class Service
@@ -142,14 +142,27 @@ class Service extends Component
 		// because the internals of the `nocache` block have been isolated from the template and are being treated
 		// as it's own separate template. This means the mapping of errors to line numbers will be off.
 		$fileName = method_exists($node, 'setSourceContext') ? $node->getSourceContext()->getName() : $node->getTemplateName();
-		$module = new Node_Module(new TwigBodyNode([$node]), $id, $fileName);
+		$module = new TwigModuleNode(
+			new TwigBodyNode([$node]),
+			null,
+			new TwigNode(),
+			new TwigNode(),
+			new TwigNode(),
+			[],
+			new TwigSource('', $fileName)
+		);
 
 		$environment = Craft::$app->getView()->getTwig();
 
-		// Compile the module node and get it's source code
+		// Compile the module node, get its source code and set the correct class name
 		$nodeCompiler = new TwigCompiler($environment);
 		$nodeCompiler->compile($module);
-		$source = $nodeCompiler->getSource();
+		$source = preg_replace(
+			'/class (\w+) extends/i',
+			'class ' . $this->getClassName($id) . ' extends',
+			$nodeCompiler->getSource(),
+			1
+		);
 
 		// Finally create the compiled template file
 		$path = $this->getCompilePath($id);
