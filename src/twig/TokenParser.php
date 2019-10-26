@@ -34,9 +34,7 @@ class TokenParser extends AbstractTokenParser
 		$stream->expect(TwigToken::BLOCK_END_TYPE);
 
 		$body = $parser->subparse([$this, 'decideEnd']);
-		$setMethod = method_exists($body, 'setSourceContext') ? 'setSourceContext' : 'setTemplateName';
-		$setContent = method_exists($body, 'setSourceContext') ? $stream->getSourceContext() : $stream->getSourceContext()->getName();
-		$body->$setMethod($setContent);
+		$body->setSourceContext($stream->getSourceContext());
 
 		$stream->next();
 		$stream->expect(TwigToken::BLOCK_END_TYPE);

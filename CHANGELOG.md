@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Changed
+- No-Cache now requires Craft 3.1.24 or later
+
 ## 2.0.5 - 2019-10-08
 ### Fixed
 - Changed how No-Cache compiled template class names are set, in a way that should be more future-proof

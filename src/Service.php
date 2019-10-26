@@ -141,7 +141,6 @@ class Service extends Component
 		// This is technically incorrect as the compiler uses this file as a way of mapping errors to line numbers,
 		// because the internals of the `nocache` block have been isolated from the template and are being treated
 		// as it's own separate template. This means the mapping of errors to line numbers will be off.
-		$fileName = method_exists($node, 'setSourceContext') ? $node->getSourceContext()->getName() : $node->getTemplateName();
 		$module = new TwigModuleNode(
 			new TwigBodyNode([$node]),
 			null,
@@ -149,7 +148,7 @@ class Service extends Component
 			new TwigNode(),
 			new TwigNode(),
 			[],
-			new TwigSource('', $fileName)
+			new TwigSource('', $node->getSourceContext()->getName())
 		);
 
 		$environment = Craft::$app->getView()->getTwig();
