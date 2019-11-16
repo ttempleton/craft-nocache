@@ -5,6 +5,7 @@
 - No-Cache now requires Craft 3.1.24 or later
 
 ### Fixed
+- Fixed issue where No-Cache blocks would disappear if compiled templates were cleared but template caches were not
 - Cleanup of event listener code
 
 ## 2.0.5 - 2019-10-08

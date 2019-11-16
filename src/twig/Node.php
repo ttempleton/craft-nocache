@@ -19,7 +19,12 @@ use ttempleton\nocache\Plugin as NoCache;
  */
 class Node extends TwigNode
 {
-	public function __construct(TwigNode $body, TwigNode $context, int $line, string $tag = null)
+	/**
+	 * @var string
+	 */
+	private $id;
+
+	public function __construct(TwigNode $body, TwigNode $context, int $line, string $tag = null, int $counter = null)
 	{
 		parent::__construct([
 			'body' => $body,
@@ -27,14 +32,24 @@ class Node extends TwigNode
 		], [], $line, $tag);
 
 		$this->setSourceContext($body->getSourceContext());
+
+		if ($counter !== null)
+		{
+			$this->id = (string)$counter;
+		}
+		else
+		{
+			$this->id = StringHelper::randomString(24);
+		}
 	}
 
 	public function compile(TwigCompiler $compiler)
 	{
 		$compiler->addDebugInfo($this);
 
-		// Generate a random ID for the `nocache` block
-		$id = StringHelper::randomString(24);
+		// Generate an ID for the `nocache` block
+		$templateClassName = $compiler->getEnvironment()->getTemplateClass($this->getSourceContext()->getName());
+		$id = hash('sha256', $templateClassName . $this->id);
 
 		// Create a wrapper node for the internals of the `nocache` block
 		// This will serve as the node that'll actually render the contents of that block, whereas this node's purpose

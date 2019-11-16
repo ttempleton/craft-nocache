@@ -3,6 +3,7 @@ namespace ttempleton\nocache\twig;
 
 use Twig\Node\Node as TwigNode;
 use Twig\Token as TwigToken;
+use Craft;
 use Twig\TokenParser\AbstractTokenParser;
 
 /**
@@ -15,6 +16,8 @@ use Twig\TokenParser\AbstractTokenParser;
  */
 class TokenParser extends AbstractTokenParser
 {
+	private $counter = 0;
+
 	public function getTag()
 	{
 		return 'nocache';
@@ -43,7 +46,8 @@ class TokenParser extends AbstractTokenParser
 			$body,
 			$context ?? new TwigNode(),
 			$token->getLine(),
-			$this->getTag()
+			$this->getTag(),
+			$this->counter++
 		);
 	}
 
