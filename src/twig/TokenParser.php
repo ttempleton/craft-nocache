@@ -3,7 +3,6 @@ namespace ttempleton\nocache\twig;
 
 use Twig\Node\Node as TwigNode;
 use Twig\Token as TwigToken;
-use Craft;
 use Twig\TokenParser\AbstractTokenParser;
 
 /**
