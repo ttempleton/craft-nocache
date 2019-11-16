@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.0.6 - 2019-11-16
 ### Changed
 - No-Cache now requires Craft 3.1.24 or later
 
