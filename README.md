@@ -38,7 +38,7 @@ If you need to reference variables outside of the `nocache` tag, you will need t
 
 ## Requirements
 
-No-Cache requires Craft CMS 3.0.0 or later. For the Craft 2 version, see the [`craft-2`](https://github.com/ttempleton/craft-nocache/tree/craft-2) branch.
+No-Cache 2.0.6 requires Craft CMS 3.1.24 or later.
 
 ## Installation
 
