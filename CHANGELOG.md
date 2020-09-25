@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- Fixed an issue where any No-Cache content in a plugin settings template in the Craft control panel would not display
+
 ## 2.0.6 - 2019-11-16
 
 ### Changed

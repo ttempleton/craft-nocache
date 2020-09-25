@@ -50,7 +50,7 @@ class Plugin extends BasePlugin
 	{
 		// 1. Only enable the plugin's functionality if template caching is enabled
 		// 2. Watch for `nocache` blocks only if it's a site request
-		if ($this->methods->isCacheEnabled() && Craft::$app->getRequest()->getIsSiteRequest())
+		if ($this->methods->isCacheEnabled())
 		{
 			// Capture the page template output
 			Event::on(View::class, View::EVENT_AFTER_RENDER_PAGE_TEMPLATE, function(TemplateEvent $event)

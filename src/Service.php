@@ -86,7 +86,7 @@ class Service extends Component
 		$request = Craft::$app->getRequest();
 
 		// See `craftcms/cms/src/web/twig/nodes/CacheNode.php` line 54
-		return $generalConfig->enableTemplateCaching && !$request->getIsLivePreview() && !$request->getIsConsoleRequest() && !$request->getToken();
+		return $generalConfig->enableTemplateCaching && !$request->getIsLivePreview() && $this->_isSiteWebRequest() && !$request->getToken();
 	}
 
 	/**
@@ -166,5 +166,12 @@ class Service extends Component
 		// Finally create the compiled template file
 		$path = $this->getCompilePath($id);
 		FileHelper::writeToFile($path, $source);
+	}
+
+	private function _isSiteWebRequest()
+	{
+		$request = Craft::$app->getRequest();
+
+		return $request->getIsSiteRequest() && !$request->getIsConsoleRequest();
 	}
 }
