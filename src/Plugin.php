@@ -38,8 +38,10 @@ class Plugin extends BasePlugin
 			'methods' => Service::class,
 		]);
 
-		Craft::$app->getView()->registerTwigExtension(new TwigExtension());
-		$this->_addEventListener();
+		if (Craft::$app->getRequest()->getIsSiteRequest()) {
+			Craft::$app->getView()->registerTwigExtension(new TwigExtension());
+			$this->_addEventListener();
+		}
 	}
 
 	/**

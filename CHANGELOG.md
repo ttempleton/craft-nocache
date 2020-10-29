@@ -3,7 +3,7 @@
 ## Unreleased
 
 ### Fixed
-- Fixed an issue where any No-Cache content in a plugin settings template in the Craft control panel would not display
+- Fixed an issue where No-Cache tags could be used in control panel templates, though the inner content of the tags wouldn't load; now, an attempt to use the tags in the control panel will cause an exception to be thrown
 
 ## 2.0.6 - 2019-11-16
 
