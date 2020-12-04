@@ -32,15 +32,7 @@ class Node extends TwigNode
 		], [], $line, $tag);
 
 		$this->setSourceContext($body->getSourceContext());
-
-		if ($counter !== null)
-		{
-			$this->id = (string)$counter;
-		}
-		else
-		{
-			$this->id = StringHelper::randomString(24);
-		}
+		$this->id = $counter !== null ? (string)$counter : StringHelper::randomString(24);
 	}
 
 	public function compile(TwigCompiler $compiler)
