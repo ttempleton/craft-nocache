@@ -59,32 +59,33 @@ class Node extends TwigNode
 
 		if (!empty($contextNode->nodes))
 		{
-			$compiler->raw('$subContext = ')->subcompile($contextNode)->raw(";\n");
+			$compiler->write('$subContext = ')->subcompile($contextNode)->raw(';' . PHP_EOL);
 		}
 		else
 		{
-			$compiler->write('$subContext = [];');
+			$compiler->write('$subContext = [];' . PHP_EOL);
 		}
 
 		$compiler
 			// Only bother tagging the output for post-processing if caching is enabled
-			->write('if (' . NoCache::class . '::$plugin->methods->isCacheEnabled())')
-			->write('{')
+			->write('if (' . NoCache::class . '::$plugin->methods->isCacheEnabled()) {' . PHP_EOL)
+			->indent()
 
 				// 1. Saves the captured context at that point in rendering to the cache. This is so when rendering the
 				//    internals of the `nocache` block later on, the context can be revived and will work as per usual.
 				// 2. Renders the placeholder tag which will later be replaced by the rendered body of the `nocache` tag.
-				->write('$contextId = ' . StringHelper::class . '::randomString(8);')
-				->write(Craft::class . "::\$app->getCache()->set('nocache_{$id}_' . \$contextId, \$subContext, 0);")
-				->write("echo '<no-cache>{$id}-' . \$contextId . '</no-cache>';")
+				->write('$contextId = ' . StringHelper::class . '::randomString(8);' . PHP_EOL)
+				->write(Craft::class . "::\$app->getCache()->set('nocache_{$id}_' . \$contextId, \$subContext, 0);" . PHP_EOL)
+				->write("echo '<no-cache>{$id}-' . \$contextId . '</no-cache>';" . PHP_EOL)
 
-			->write('}')
-			->write('else')
-			->write('{')
+			->outdent()
+			->write('} else {' . PHP_EOL)
+			->indent()
 
 				// Otherwise render the template with the context directly
-				->write("echo " . NoCache::class . "::\$plugin->methods->render('{$id}', \$subContext);")
+				->write("echo " . NoCache::class . "::\$plugin->methods->render('{$id}', \$subContext);" . PHP_EOL)
 
-			->write('}');
+			->outdent()
+			->write('}' . PHP_EOL);
 	}
 }

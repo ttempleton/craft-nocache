@@ -4,6 +4,7 @@
 
 ### Fixed
 - Fixed an issue where No-Cache tags could be used in control panel templates, though the inner content of the tags wouldn't load; now, an attempt to use the tags in the control panel will cause an exception to be thrown
+- Fixed some formatting issues with No-Cache-related compiled template code
 
 ## 2.0.6 - 2019-11-16
 
