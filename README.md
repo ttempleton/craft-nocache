@@ -4,10 +4,10 @@
 
 ```twig
 {% cache %}
-	This will be cached
-	{% nocache %}
-		This won't be
-	{% endnocache %}
+    This will be cached
+    {% nocache %}
+        This won't be
+    {% endnocache %}
 {% endcache %}
 ```
 
@@ -15,15 +15,15 @@ It also works when disabling the cache from included files:
 
 ```twig
 {% cache %}
-	This will be cached
-	{% include 'template' %}
+    This will be cached
+    {% include 'template' %}
 {% endcache %}
 ```
 
 _template.twig:_
 ```twig
 {% nocache %}
-	This won't be
+    This won't be
 {% endnocache %}
 ```
 
@@ -32,7 +32,7 @@ If you need to reference variables outside of the `nocache` tag, you will need t
 ```twig
 {% set variable = 5 %}
 {% nocache with {x: variable} %}
-	The following value should be 5: {{ x }}
+    The following value should be 5: {{ x }}
 {% endnocache %}
 ```
 
@@ -61,13 +61,13 @@ Say you have a list of products you want to show on your page. Under each produc
 ```twig
 {% cache %}
 {% for product in craft.entries().section('products').limit(20).all() %}
-	<article>
-		<figure>{{ product.image.one().img }}</figure>
-		<h1>{{ product.title }}</h1>
-		{% if currentUser %}
-			<button{{ currentUser.cart.id(product.id).count() > 0 ? ' disabled' }}>Add to cart</button>
-		{% endif %}
-	</article>
+    <article>
+        <figure>{{ product.image.one().img }}</figure>
+        <h1>{{ product.title }}</h1>
+        {% if currentUser %}
+            <button{{ currentUser.cart.id(product.id).count() > 0 ? ' disabled' }}>Add to cart</button>
+        {% endif %}
+    </article>
 {% endfor %}
 {% endcache %}
 ```
@@ -79,15 +79,15 @@ With `nocache` tags you can fix this very easily:
 ```twig
 {% cache %}
 {% for product in craft.entries().section('products').limit(20).all() %}
-	<article>
-		<figure>{{ product.image.one().img }}</figure>
-		<h1>{{ product.title }}</h1>
-		{% nocache with {productId: product.id} %}
-		{% if currentUser %}
-			<button{{ currentUser.cart.id(productId).count() > 0 ? ' disabled' }}>Add to cart</button>
-		{% endif %}
-		{% endnocache %}
-	</article>
+    <article>
+        <figure>{{ product.image.one().img }}</figure>
+        <h1>{{ product.title }}</h1>
+        {% nocache with {productId: product.id} %}
+        {% if currentUser %}
+            <button{{ currentUser.cart.id(productId).count() > 0 ? ' disabled' }}>Add to cart</button>
+        {% endif %}
+        {% endnocache %}
+    </article>
 {% endfor %}
 {% endcache %}
 ```
@@ -102,8 +102,8 @@ Well, now your CSRF tokens are going to be cached and there's basically nothing 
 
 ```twig
 <form>
-	{% nocache %}{{ csrfInput() }}{% endnocache %}
-	...
+    {% nocache %}{{ csrfInput() }}{% endnocache %}
+    ...
 </form>
 ```
 
@@ -118,10 +118,10 @@ This causes an issue in situations like the following:
 ```twig
 {% set article = craft.entries().section('news').one() %}
 {% cache %}
-	...
-	{% nocache with {article: article} %}
-		{{ article.title }}
-	{% endnocache %}
+    ...
+    {% nocache with {article: article} %}
+        {{ article.title }}
+    {% endnocache %}
 {% endcache %}
 ```
 
@@ -131,11 +131,11 @@ There's a few ways around this. You could move the `{% set articles %}` statemen
 
 ```twig
 {% cache %}
-	{% set article = craft.entries().section('news').one() %}
-	...
-	{% nocache with {article: article} %}
-		{{ article.title }}
-	{% endnocache %}
+    {% set article = craft.entries().section('news').one() %}
+    ...
+    {% nocache with {article: article} %}
+        {{ article.title }}
+    {% endnocache %}
 {% endcache %}
 ```
 
@@ -143,11 +143,11 @@ The other option is to query for the article inside the `nocache` block. This ca
 
 ```twig
 {% cache %}
-	...
-	{% nocache %}
-		{% set article = craft.entries().section('news').one() %}
-		{{ article.title }}
-	{% endnocache %}
+    ...
+    {% nocache %}
+        {% set article = craft.entries().section('news').one() %}
+        {{ article.title }}
+    {% endnocache %}
 {% endcache %}
 ```
 
