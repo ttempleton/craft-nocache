@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.0.7 - 2020-12-31
 
 ### Fixed
 - Fixed an issue where No-Cache tags could be used in control panel templates, though the inner content of the tags wouldn't load; now, an attempt to use the tags in the control panel will cause an exception to be thrown
