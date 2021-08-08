@@ -35,12 +35,4 @@ class Node_Module extends TwigModuleNode
 
 		$this->id = $id;
 	}
-
-	/**
-	 * @param TwigCompiler $compiler
-	 */
-	protected function compileClassHeader(TwigCompiler $compiler)
-	{
-		parent::compileClassHeader($compiler);
-	}
 }
