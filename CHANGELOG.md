@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.0.8 - 2021-08-08
 
 ### Fixed
 - Fixed an issue where Twig macros couldn't be imported into a No-Cache block from the template the No-Cache block is a part of
