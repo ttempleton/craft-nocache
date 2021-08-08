@@ -23,7 +23,7 @@ use Twig\Source as TwigSource;
 class Service extends Component
 {
     /**
-     * Returns the path of the NoCache compiled templates directory.
+     * Returns the path of the No-Cache compiled templates directory.
      * If an ID is passed, the directory with the compiled template filename will be returned.
      *
      * @param string|null $id - The template ID
@@ -34,12 +34,7 @@ class Service extends Component
         $path = Craft::$app->getPath()->getCompiledTemplatesPath(false) . DIRECTORY_SEPARATOR . 'nocache' . DIRECTORY_SEPARATOR;
         FileHelper::createDirectory($path);
 
-        if ($id)
-        {
-            $path .= $this->getFileName($id);
-        }
-
-        return $path;
+        return $id ? $path . $this->getFileName($id) : $path;
     }
 
     /**
@@ -65,7 +60,7 @@ class Service extends Component
     }
 
     /**
-     * Returns the ID of the compiled template from it's filename.
+     * Returns the ID of the compiled template from its filename.
      *
      * @param string $fileName - The template filename
      * @return string
@@ -90,7 +85,7 @@ class Service extends Component
     }
 
     /**
-     * Renders a NoCache compiled template.
+     * Renders a No-Cache compiled template.
      *
      * @param $templateId
      * @param string|array $contextId
@@ -102,8 +97,7 @@ class Service extends Component
         $className = $this->getClassName($templateId);
         $compiledTemplate = $this->getCompilePath($templateId);
 
-        if (!file_exists($compiledTemplate))
-        {
+        if (!file_exists($compiledTemplate)) {
             return null;
         }
 
@@ -117,8 +111,7 @@ class Service extends Component
         // Merge the cached context (if it exists) onto the current context before rendering the body
         // Make sure that the original context takes priority over the cached context, so variables that have been
         // updated are used instead (such as the `now` global variable)
-        if (!empty($cachedContext))
-        {
+        if (!empty($cachedContext)) {
             $context = array_merge($context, $cachedContext);
         }
 
@@ -126,7 +119,7 @@ class Service extends Component
     }
 
     /**
-     * Compiles a Twig node independently to it's own compiled template file.
+     * Compiles a Twig node independently to its own compiled template file.
      * This method is used to save the internals of a `nocache` tag for later use.
      *
      * @param string $id - The template ID
@@ -137,10 +130,10 @@ class Service extends Component
         // Create a module node as it'll compile to a complete compiled template class, as opposed to just compiling the
         // node directly, which will only generate the internals of the render method for that class.
         // Modules expect a Twig template file to be the source of their compilation. Since this last parameter is
-        // required to be a valid template file, just pass it the template that the `nocache` block is apart of.
+        // required to be a valid template file, just pass it the template that the `nocache` block is a part of.
         // This is technically incorrect as the compiler uses this file as a way of mapping errors to line numbers,
         // because the internals of the `nocache` block have been isolated from the template and are being treated
-        // as it's own separate template. This means the mapping of errors to line numbers will be off.
+        // as its own separate template. This means the mapping of errors to line numbers will be off.
         $module = new TwigModuleNode(
             new TwigBodyNode([$node]),
             null,
