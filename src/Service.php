@@ -5,7 +5,7 @@ use yii\base\Component;
 
 use Craft;
 use craft\helpers\FileHelper;
-
+use ttempleton\nocache\twig\Node_ClassEnd;
 use Twig\Compiler as TwigCompiler;
 use Twig\Node\Node as TwigNode;
 use Twig\Node\BodyNode as TwigBodyNode;
@@ -143,6 +143,7 @@ class Service extends Component
             [],
             new TwigSource('', $node->getSourceContext()->getName())
         );
+        $module->setNode('class_end', new Node_ClassEnd($module));
 
         $environment = Craft::$app->getView()->getTwig();
 
