@@ -1,16 +1,17 @@
 <?php
+
 namespace ttempleton\nocache;
 
-use yii\base\Component;
-
 use Craft;
+
 use craft\helpers\FileHelper;
 use ttempleton\nocache\twig\Node_ClassEnd;
 use Twig\Compiler as TwigCompiler;
-use Twig\Node\Node as TwigNode;
 use Twig\Node\BodyNode as TwigBodyNode;
 use Twig\Node\ModuleNode as TwigModuleNode;
+use Twig\Node\Node as TwigNode;
 use Twig\Source as TwigSource;
+use yii\base\Component;
 
 /**
  * Class Service

@@ -1,4 +1,5 @@
 <?php
+
 namespace ttempleton\nocache\twig;
 
 use Twig\Node\Node as TwigNode;
@@ -15,43 +16,42 @@ use Twig\TokenParser\AbstractTokenParser;
  */
 class TokenParser extends AbstractTokenParser
 {
-	private $counter = 0;
+    private $counter = 0;
 
-	public function getTag()
-	{
-		return 'nocache';
-	}
+    public function getTag()
+    {
+        return 'nocache';
+    }
 
-	public function parse(TwigToken $token)
-	{
-		$parser = $this->parser;
-		$stream = $parser->getStream();
+    public function parse(TwigToken $token)
+    {
+        $parser = $this->parser;
+        $stream = $parser->getStream();
 
-		$context = null;
-		if ($stream->nextIf(TwigToken::NAME_TYPE, 'with'))
-		{
-			$context = $parser->getExpressionParser()->parseExpression();
-		}
+        $context = null;
+        if ($stream->nextIf(TwigToken::NAME_TYPE, 'with')) {
+            $context = $parser->getExpressionParser()->parseExpression();
+        }
 
-		$stream->expect(TwigToken::BLOCK_END_TYPE);
+        $stream->expect(TwigToken::BLOCK_END_TYPE);
 
-		$body = $parser->subparse([$this, 'decideEnd']);
-		$body->setSourceContext($stream->getSourceContext());
+        $body = $parser->subparse([$this, 'decideEnd']);
+        $body->setSourceContext($stream->getSourceContext());
 
-		$stream->next();
-		$stream->expect(TwigToken::BLOCK_END_TYPE);
+        $stream->next();
+        $stream->expect(TwigToken::BLOCK_END_TYPE);
 
-		return new Node(
-			$body,
-			$context ?? new TwigNode(),
-			$token->getLine(),
-			$this->getTag(),
-			$this->counter++
-		);
-	}
+        return new Node(
+            $body,
+            $context ?? new TwigNode(),
+            $token->getLine(),
+            $this->getTag(),
+            $this->counter++
+        );
+    }
 
-	public function decideEnd(TwigToken $token)
-	{
-		return $token->test(['endnocache']);
-	}
+    public function decideEnd(TwigToken $token)
+    {
+        return $token->test(['endnocache']);
+    }
 }

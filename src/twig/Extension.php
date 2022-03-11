@@ -1,4 +1,5 @@
 <?php
+
 namespace ttempleton\nocache\twig;
 
 use Twig\Extension\AbstractExtension;
@@ -13,18 +14,18 @@ use Twig\Extension\AbstractExtension;
  */
 class Extension extends AbstractExtension
 {
-	public function getName()
-	{
-		return 'nocache';
-	}
+    public function getName()
+    {
+        return 'nocache';
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getTokenParsers()
-	{
-		return [
-			new TokenParser(),
-		];
-	}
+    /**
+     * @return array
+     */
+    public function getTokenParsers()
+    {
+        return [
+            new TokenParser(),
+        ];
+    }
 }
