@@ -30,7 +30,7 @@ class Service extends Component
      * @param string|null $id - The template ID
      * @return string
      */
-    public function getCompilePath(string $id = null): string
+    public function getCompilePath(?string $id = null): string
     {
         $path = Craft::$app->getPath()->getCompiledTemplatesPath(false) . DIRECTORY_SEPARATOR . 'nocache' . DIRECTORY_SEPARATOR;
         FileHelper::createDirectory($path);
@@ -88,11 +88,11 @@ class Service extends Component
     /**
      * Renders a No-Cache compiled template.
      *
-     * @param $templateId
+     * @param string $templateId
      * @param string|array $contextId
      * @return string|null - The rendered output of the template
      */
-    public function render($templateId, $contextId)
+    public function render(string $templateId, string|array $contextId): ?string
     {
         $environment = Craft::$app->getView()->getTwig();
         $className = $this->getClassName($templateId);
@@ -126,7 +126,7 @@ class Service extends Component
      * @param string $id - The template ID
      * @param TwigNode $node
      */
-    public function compile(string $id, TwigNode $node)
+    public function compile(string $id, TwigNode $node): void
     {
         // Create a module node as it'll compile to a complete compiled template class, as opposed to just compiling the
         // node directly, which will only generate the internals of the render method for that class.
@@ -163,7 +163,7 @@ class Service extends Component
         FileHelper::writeToFile($path, $source);
     }
 
-    private function _isSiteWebRequest()
+    private function _isSiteWebRequest(): bool
     {
         $request = Craft::$app->getRequest();
 

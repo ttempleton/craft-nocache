@@ -16,7 +16,7 @@ use Twig\TokenParser\AbstractTokenParser;
  */
 class TokenParser extends AbstractTokenParser
 {
-    private $counter = 0;
+    private int $counter = 0;
 
     public function getTag()
     {

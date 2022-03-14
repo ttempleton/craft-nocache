@@ -22,14 +22,14 @@ use yii\base\Event;
 class Plugin extends BasePlugin
 {
     /**
-     * @var Plugin The instance of this plugin.
+     * @var Plugin|null The instance of this plugin.
      */
-    public static $plugin;
+    public static ?Plugin $plugin;
 
     /**
      * Plugin initializer.
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -49,7 +49,7 @@ class Plugin extends BasePlugin
      * Adds No-Cache's listener for Craft's after render page template event if it's a site request and template caching
      * is enabled.
      */
-    private function _addEventListener()
+    private function _addEventListener(): void
     {
         // 1. Only enable the plugin's functionality if template caching is enabled
         // 2. Watch for `nocache` blocks only if it's a site request

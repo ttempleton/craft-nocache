@@ -23,9 +23,9 @@ class Node extends TwigNode
     /**
      * @var string
      */
-    private $id;
+    private ?string $id;
 
-    public function __construct(TwigNode $body, TwigNode $context, int $line, string $tag = null, int $counter = null)
+    public function __construct(TwigNode $body, TwigNode $context, int $line, ?string $tag = null, ?int $counter = null)
     {
         parent::__construct([
             'body' => $body,

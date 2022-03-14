@@ -16,9 +16,12 @@ use Twig\Node\Node as TwigNode;
  */
 class Node_Body extends TwigNode
 {
-    protected $id;
+    /**
+     * @var string
+     */
+    protected ?string $id;
 
-    public function __construct(TwigNode $body, string $id, int $line, string $tag = null)
+    public function __construct(TwigNode $body, string $id, int $line, ?string $tag = null)
     {
         parent::__construct(['body' => $body], [], $line, $tag);
 
