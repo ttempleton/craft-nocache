@@ -14,11 +14,6 @@ use Twig\Extension\AbstractExtension;
  */
 class Extension extends AbstractExtension
 {
-    public function getName()
-    {
-        return 'nocache';
-    }
-
     /**
      * @return array
      */
