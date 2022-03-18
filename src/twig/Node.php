@@ -58,7 +58,7 @@ class Node extends TwigNode
         $bodyNode = $this->getNode('body');
         $bodyNode->setSourceContext($this->getSourceContext());
 
-        $body = new Node_Body($bodyNode, $id, $this->lineno, $this->tag);
+        $body = new Node_Body($bodyNode, $this->lineno, $this->tag);
 
         // Compile the internals to a separate compiled template file for later use
         NoCache::$plugin->methods->compile($id, $body);

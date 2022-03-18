@@ -18,11 +18,10 @@ class Node_Body extends TwigNode
 {
     /**
      * @param TwigNode $body
-     * @param string $id
      * @param int $line
      * @param string|null $tag
      */
-    public function __construct(TwigNode $body, string $id, int $line, ?string $tag = null)
+    public function __construct(TwigNode $body, int $line, ?string $tag = null)
     {
         parent::__construct(['body' => $body], [], $line, $tag);
 
