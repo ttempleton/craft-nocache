@@ -2,7 +2,7 @@
 
 namespace ttempleton\nocache\twig;
 
-use Twig\Compiler as TwigCompiler;
+use Twig\Compiler;
 use Twig\Node\Node as TwigNode;
 
 /**
@@ -16,6 +16,12 @@ use Twig\Node\Node as TwigNode;
  */
 class Node_Body extends TwigNode
 {
+    /**
+     * @param TwigNode $body
+     * @param string $id
+     * @param int $line
+     * @param string|null $tag
+     */
     public function __construct(TwigNode $body, string $id, int $line, ?string $tag = null)
     {
         parent::__construct(['body' => $body], [], $line, $tag);
@@ -23,7 +29,10 @@ class Node_Body extends TwigNode
         $this->setSourceContext($body->getSourceContext());
     }
 
-    public function compile(TwigCompiler $compiler)
+    /**
+     * @inheritdoc
+     */
+    public function compile(Compiler $compiler): void
     {
         $compiler->subcompile($this->getNode('body'));
     }

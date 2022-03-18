@@ -15,9 +15,9 @@ use Twig\Extension\AbstractExtension;
 class Extension extends AbstractExtension
 {
     /**
-     * @return array
+     * @inheritdoc
      */
-    public function getTokenParsers()
+    public function getTokenParsers(): array
     {
         return [
             new TokenParser(),

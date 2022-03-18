@@ -2,7 +2,7 @@
 
 namespace ttempleton\nocache\twig;
 
-use Twig\Compiler as TwigCompiler;
+use Twig\Compiler;
 use Twig\Node\Node as TwigNode;
 
 /**
@@ -17,13 +17,19 @@ use Twig\Node\Node as TwigNode;
  */
 class Node_ClassEnd extends TwigNode
 {
+    /**
+     * @param TwigNode $node
+     */
     public function __construct(TwigNode $node)
     {
         parent::__construct();
         $this->setSourceContext($node->getSourceContext());
     }
 
-    public function compile(TwigCompiler $compiler)
+    /**
+     * @inheritdoc
+     */
+    public function compile(Compiler $compiler): void
     {
         $compiler
             ->raw(PHP_EOL)

@@ -3,10 +3,9 @@
 namespace ttempleton\nocache;
 
 use Craft;
-
 use craft\helpers\FileHelper;
 use ttempleton\nocache\twig\Node_ClassEnd;
-use Twig\Compiler as TwigCompiler;
+use Twig\Compiler;
 use Twig\Node\BodyNode as TwigBodyNode;
 use Twig\Node\ModuleNode as TwigModuleNode;
 use Twig\Node\Node as TwigNode;
@@ -149,7 +148,7 @@ class Service extends Component
         $environment = Craft::$app->getView()->getTwig();
 
         // Compile the module node, get its source code and set the correct class name
-        $nodeCompiler = new TwigCompiler($environment);
+        $nodeCompiler = new Compiler($environment);
         $nodeCompiler->compile($module);
         $source = preg_replace(
             '/class (\w+) extends/i',

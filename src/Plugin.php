@@ -8,7 +8,6 @@ use craft\base\Plugin as BasePlugin;
 use craft\events\TemplateEvent;
 use craft\web\View;
 use ttempleton\nocache\twig\Extension as TwigExtension;
-
 use yii\base\Event;
 
 /**

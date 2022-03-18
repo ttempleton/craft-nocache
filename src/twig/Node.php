@@ -4,10 +4,8 @@ namespace ttempleton\nocache\twig;
 
 use Craft;
 use craft\helpers\StringHelper;
-
 use ttempleton\nocache\Plugin as NoCache;
-use Twig\Compiler as TwigCompiler;
-
+use Twig\Compiler;
 use Twig\Node\Node as TwigNode;
 
 /**
@@ -21,10 +19,17 @@ use Twig\Node\Node as TwigNode;
 class Node extends TwigNode
 {
     /**
-     * @var string
+     * @var string|null
      */
     private ?string $id;
 
+    /**
+     * @param TwigNode $body
+     * @param TwigNode $context
+     * @param int $line
+     * @param string|null $tag
+     * @param int|null $counter
+     */
     public function __construct(TwigNode $body, TwigNode $context, int $line, ?string $tag = null, ?int $counter = null)
     {
         parent::__construct([
@@ -36,7 +41,10 @@ class Node extends TwigNode
         $this->id = $counter !== null ? (string)$counter : StringHelper::randomString(24);
     }
 
-    public function compile(TwigCompiler $compiler)
+    /**
+     * @inheritdoc
+     */
+    public function compile(Compiler $compiler): void
     {
         $compiler->addDebugInfo($this);
 
