@@ -16,7 +16,7 @@ use Twig\TokenParser\AbstractTokenParser;
  */
 class TokenParser extends AbstractTokenParser
 {
-    private int $counter = 0;
+    private int $_counter = 0;
 
     /**
      * @inheritdoc
@@ -52,7 +52,7 @@ class TokenParser extends AbstractTokenParser
             $context ?? new TwigNode(),
             $token->getLine(),
             $this->getTag(),
-            $this->counter++
+            $this->_counter++
         );
     }
 

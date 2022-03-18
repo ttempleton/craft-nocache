@@ -21,7 +21,7 @@ class Node extends TwigNode
     /**
      * @var string|null
      */
-    private ?string $id;
+    private ?string $_id;
 
     /**
      * @param TwigNode $body
@@ -38,7 +38,7 @@ class Node extends TwigNode
         ], [], $line, $tag);
 
         $this->setSourceContext($body->getSourceContext());
-        $this->id = $counter !== null ? (string)$counter : StringHelper::randomString(24);
+        $this->_id = $counter !== null ? (string)$counter : StringHelper::randomString(24);
     }
 
     /**
@@ -50,7 +50,7 @@ class Node extends TwigNode
 
         // Generate an ID for the `nocache` block
         $templateClassName = $compiler->getEnvironment()->getTemplateClass($this->getSourceContext()->getName());
-        $id = hash('sha256', $templateClassName . $this->id);
+        $id = hash('sha256', $templateClassName . $this->_id);
 
         // Create a wrapper node for the internals of the `nocache` block
         // This will serve as the node that'll actually render the contents of that block, whereas this node's purpose
