@@ -3,7 +3,7 @@
 ## Unreleased
 
 ### Added
-- Added Craft 4 compatibility (requires Craft 4.0.0-beta.1 or later)
+- Added Craft 4 compatibility (requires Craft 4.0.0-beta.2 or later)
 
 ## 2.0.8 - 2021-08-08
 
