@@ -38,7 +38,7 @@ If you need to reference variables outside of the `nocache` tag, you will need t
 
 ## Requirements
 
-No-Cache requires Craft CMS 4.0.0-beta.2 or later.
+No-Cache requires Craft CMS 4.0.0 or later.
 
 ## Installation
 

@@ -3,7 +3,10 @@
 ## 3.0.0-beta.1 - 2022-03-19
 
 ### Added
-- Added Craft 4 compatibility (requires Craft 4.0.0-beta.2 or later)
+- Added Craft 4 compatibility
+
+### Removed
+- Removed Craft 3 compatibility
 
 ## 2.0.8 - 2021-08-08
 
