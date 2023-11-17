@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.0.1 - 2023-11-17
 
 ### Fixed
 - Fixed a bug where No-Cache blocks weren't being rendered if the `token` request query parameter was set to an invalid token
