@@ -1,0 +1,6 @@
+/.ddev/ export-ignore
+/.gitattributes export-ignore
+/.github/ export-ignore
+/.gitignore export-ignore
+/composer.lock export-ignore
+/ecs.php export-ignore
