@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Added Craft 5 compatibility
+
 ## 3.0.1 - 2023-11-17
 
 ### Fixed
