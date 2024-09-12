@@ -4,6 +4,8 @@ namespace ttempleton\nocache\twig;
 
 use Twig\Compiler;
 use Twig\Node\Node as TwigNode;
+use Composer\Semver\VersionParser;
+use Composer\InstalledVersions;
 
 /**
  * Class Node_ClassEnd
@@ -31,9 +33,21 @@ class Node_ClassEnd extends TwigNode
      */
     public function compile(Compiler $compiler): void
     {
+        /**
+         * twig/twig 3.13 added return types to Twig\Template::loadTemplate
+         * which causes errors when you're on a newer version of twig
+         *
+         * https://github.com/twigphp/Twig/blob/v3.13.0/src/Template.php#L280
+         */
+        if (InstalledVersions::satisfies(new VersionParser(), 'twig/twig', "^3.13")) {
+            $returnTypes = ': Twig\Template|Twig\TemplateWrapper';
+        } else {
+            $returnTypes = '';
+        }
+
         $compiler
             ->raw(PHP_EOL)
-            ->write('protected function loadTemplate($template, $templateName = null, $line = null, $index = null)' . PHP_EOL)
+            ->write('protected function loadTemplate($template, $templateName = null, $line = null, $index = null)' . $returnTypes . PHP_EOL)
             ->write('{' . PHP_EOL)
             ->indent()
                 // If $template === $this->getTemplateName(), then Twig will assume the No-Cache template is the correct
