@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.0.3 - 2024-09-14
 
 ### Fixed
 - Fixed an error that occurred when using Twig 3.13 or later (thanks @jaspertandy)

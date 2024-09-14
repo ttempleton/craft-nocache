@@ -1,7 +1,7 @@
 {
   "name": "ttempleton/craft-nocache",
   "description": "A Twig extension to escape caching inside cache blocks",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "type": "craft-plugin",
   "keywords": [
     "cms",
@@ -34,7 +34,7 @@
     "name": "No-Cache",
     "class": "ttempleton\\nocache\\Plugin",
     "changelogUrl": "https://github.com/ttempleton/craft-nocache/blob/master/CHANGELOG.md",
-    "downloadUrl": "https://github.com/ttempleton/craft-nocache/archive/refs/tags/3.0.2.zip"
+    "downloadUrl": "https://github.com/ttempleton/craft-nocache/archive/refs/tags/3.0.3.zip"
   },
   "config": {
     "allow-plugins": {
