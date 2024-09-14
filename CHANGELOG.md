@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- Fixed an error that occurred when using Twig 3.13 or later (thanks @jaspertandy)
+
 ## 3.0.2 - 2024-01-25
 
 ### Added
