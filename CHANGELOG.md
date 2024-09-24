@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.0.4 - 2024-09-24
 
 ### Fixed
 - Fixed an error that occurred on Craft 5 when saving entries that use CKEditor field values in their title format, where any nested entries in the CKEditor field have partial templates that use No-Cache tags (thanks @thomascoppein)
