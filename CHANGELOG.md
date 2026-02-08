@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- No-Cache now requires either Craft 5.9.0 or later versions of Craft 5, or Craft 4.17.0 or later versions of Craft 4
+
 ## 3.0.4 - 2024-09-24
 
 ### Fixed

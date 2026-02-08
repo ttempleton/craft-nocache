@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "craftcms/cms": "^4.0.0|^5.0.0-alpha",
+    "craftcms/cms": "^4.17.0|^5.9.0",
     "php": "^8.0.2"
   },
   "support": {

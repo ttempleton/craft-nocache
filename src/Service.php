@@ -7,8 +7,11 @@ use craft\helpers\FileHelper;
 use ttempleton\nocache\twig\Node_ClassEnd;
 use Twig\Compiler;
 use Twig\Node\BodyNode as TwigBodyNode;
+use Twig\Node\CheckSecurityCallNode;
+use Twig\Node\CheckSecurityNode;
 use Twig\Node\ModuleNode as TwigModuleNode;
 use Twig\Node\Node as TwigNode;
+use Twig\Node\Nodes;
 use Twig\Source as TwigSource;
 use yii\base\Component;
 
@@ -147,7 +150,16 @@ class Service extends Component
             [],
             new TwigSource('', $node->getSourceContext()->getName())
         );
-        $module->setNode('class_end', new Node_ClassEnd($module));
+        // Security check nodes required on Craft 5.9 and 4.17
+        $module->setNode('constructor_end', new Nodes([
+            new CheckSecurityCallNode(),
+            $module->getNode('constructor_end'),
+        ]));
+        $module->setNode('class_end', new Nodes([
+            new CheckSecurityNode([], [], []),
+            new Node_ClassEnd($module),
+            $module->getNode('class_end'),
+        ]));
 
         $environment = Craft::$app->getView()->getTwig();
 
