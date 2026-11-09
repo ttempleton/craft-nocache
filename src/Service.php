@@ -163,7 +163,11 @@ class Service extends Component
 
         $environment = Craft::$app->getView()->getTwig();
 
-        // Compile the module node, get its source code and set the correct class name
+        if (method_exists($environment, 'setDefaultEscaperStrategy')) {
+            $environment->setDefaultEscaperStrategy();
+            $module->setAttribute('escaper', true);
+        }
+
         $nodeCompiler = new Compiler($environment);
         $nodeCompiler->compile($module);
         $source = preg_replace(

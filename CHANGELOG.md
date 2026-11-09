@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- Fixed an error that occurred on Craft 5.12
+
 ## 3.1.0 - 2026-02-08
 
 ### Changed
