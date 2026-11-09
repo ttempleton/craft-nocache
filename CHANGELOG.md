@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.1.1 - 2026-11-09
 
 ### Fixed
 - Fixed an error that occurred on Craft 5.12
